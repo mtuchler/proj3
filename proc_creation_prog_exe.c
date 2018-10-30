@@ -1,7 +1,4 @@
 #include "proc_creation_prog_exe.h"
-#include <stdio.h>
-#include <stlib.h>
-#include <sys/wait.h>
 
 //this method creates a child file from the parent file
 //and makes it run as its own once execvp is called 
