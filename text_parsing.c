@@ -7,5 +7,10 @@ int parser(){
 
 	fd = fopen("Makefile","r");
 	
+	if(fd == NULL){
+		printf("Error opening file\n");
+		exit(1);
+	}	
+	else{}
 
 }
