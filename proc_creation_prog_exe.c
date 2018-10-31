@@ -1,3 +1,18 @@
+/////////////////////////////////////////////////
+//
+// File:	prog_creation_proc_exe.c
+//
+// Author:      Abhi Kosuri
+//              Mike Tuchler
+// All files:   build_spec_graph.c, .h
+//              build_spec_repr.c, .h
+//              proc_creation_prog_exe.c, .h
+//              text_parsing.c, .h
+//              main.c, README
+//
+/////////////////////////////////////////////////
+
+
 #include "proc_creation_prog_exe.h"
 
 //this method creates a child file from the parent file
