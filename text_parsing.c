@@ -1,20 +1,24 @@
-#include<stdio.h>
-#include<string.h> 
+#include "text_parsing.h"
 
-int parser(){
-    	FILE* fd;
+//parses the lines of Makefile and blah blah
+int parser(int argc, char** argv){
+    	FILE* F;
     	char buff[1024];
+	int c;
 	
-	fd = fopen("Makefile","r");
+	F  = fopen("Makefile","r");
 	
-	if(fd == NULL){
+	if(F == NULL){
 		printf("Error opening file\n");
 		exit(1);
 	}	
 	else{
-		while(){
-			
+		while((c =fgetc(input_file)) != EOF){	
+			if(){
+								
+			}
 		}	
 	}
+	fclose(fd);
 
 }
