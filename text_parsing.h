@@ -12,3 +12,13 @@
 //
 /////////////////////////////////////////////////
 
+#ifndef TEXT_PARSING_H
+#define TEXT_PARSING_H
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define BUFF_SIZE 1024
+
+int parseTargets(char* target);
+#endif

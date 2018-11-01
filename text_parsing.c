@@ -1,12 +1,12 @@
 #include "text_parsing.h"
 
 //parses the lines of Makefile and blah blah
-int parser(int argc, char** argv){
+int parseTargets(char* target){
     	FILE* file;
     	int buff = 1024;
 	int c;
 	char *lineBuffer = (char *)malloc(sizeof(char) * buffer);
-	char* token = strok(buff, ":");
+	char* token = strtok(buff, ":");
 
 	file  = fopen(filename, "r");
 	
@@ -15,15 +15,12 @@ int parser(int argc, char** argv){
 		exit(1);
 	}	
 	else{
-		while(fgets(buff, sizeof(buff), file) != NULL){	
-			switch(token):
-				case '\t':
-				// command line 
-					break;
-				default:
-					//dependencies and targets
-					break;
+		while(token!=NULL){
+			printf("%s\n", token);
+			token = strtok(NULL, ":");
+			//handling target and dependencies
 		}	
+
 	}
 	fclose(file);
 
