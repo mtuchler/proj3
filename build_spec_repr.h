@@ -34,8 +34,8 @@ struct TreeNode {
 static const int MAX_NODES = 64;
 
 // Declaring functions
-TreeNode* nodeInit(char* name, int line);
-int nodeFree(*TreeNode node);
-int getNodes();
+TreeNode nodeInit(char* name, int line);
+int nodeFree(TreeNode node);
+TreeNode* getNodes();
 
 #endif

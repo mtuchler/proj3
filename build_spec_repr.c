@@ -48,7 +48,7 @@ int nodeFree(TreeNode* node) {
 // passes them into an unsorted array of TreeNodes
 // inputs:	idk
 // return:	idk
-int getNodes() {
+TreeNode* getNodes() {
 	// Returned array of TreeNodes
 	TreeNode graph[MAX_NODES];
 	// ints and buffer
@@ -71,5 +71,5 @@ int getNodes() {
 	// Close the file
 	fileClose(f);
 
-        return 0;
+        return graph;
 }
