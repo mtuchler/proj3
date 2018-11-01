@@ -18,7 +18,11 @@ int parser(int argc, char** argv){
 		while(fgets(buff, sizeof(buff), file) != NULL){	
 			switch(token):
 				case '\t':
+				// command line 
+					break;
 				default:
+					//dependencies and targets
+					break;
 		}	
 	}
 	fclose(file);
