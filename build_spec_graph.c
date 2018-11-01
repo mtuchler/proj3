@@ -11,3 +11,23 @@
 // 		main.c, README
 //
 /////////////////////////////////////////////////
+
+#include "build_spec_graph.h"
+
+// function to initialize a new TreeNode
+TreeNode* node_init(char *name, int line) {
+	struct TreeNode node;
+	// input given name and line number
+	node.name = malloc(BUFF_SIZE);
+	strcpy(node.name, name);
+	node.line = line;
+	// for use with DFS
+	node.checked = 0;
+	// parent and children remain NULL
+
+	return &node;
+}
+
+int main() {
+	return 0;
+}

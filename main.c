@@ -17,7 +17,7 @@
 
 int main() {
 
-	char **arg = {NULL};
+	char **arg = {"ls",NULL};
 
 	printf("before\n");
 
