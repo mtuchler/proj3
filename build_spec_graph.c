@@ -15,7 +15,7 @@
 #include "build_spec_graph.h"
 
 // function to initialize a new TreeNode
-TreeNode* node_init(char *name, int line) {
+TreeNode* nodeInit(char *name, int line) {
 	struct TreeNode node;
 	// input given name and line number
 	node.name = malloc(BUFF_SIZE);
@@ -26,6 +26,31 @@ TreeNode* node_init(char *name, int line) {
 	// parent and children remain NULL
 
 	return &node;
+}
+
+// function to free a node (may delete)
+int nodeFree(TreeNode* node) {
+	free(node->name);
+	node->name = NULL;
+	return 0;
+}
+
+// reads the Makefile and parses targets, turning them to nodes
+// passes them into an unsorted array of TreeNodes
+int getNodes() {
+	return 0;
+}
+
+// parses Makefile for dependencies, and sets parents/children
+// TODO does this do it for one node or all of them?
+int connectNodes() {
+	return 0;
+}
+
+// using a DFS, creates a build order for the Makefile
+// also checks for cycles, which are bad
+int buildOrder() {
+	return 0;
 }
 
 int main() {
