@@ -16,9 +16,9 @@ int parser(int argc, char** argv){
 	}	
 	else{
 		while(fgets(buff, sizeof(buff), file) != NULL){	
-			if(token != NULL){
-							
-			}
+			switch(token):
+				case '\t':
+				default:
 		}	
 	}
 	fclose(file);
