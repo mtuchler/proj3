@@ -1,7 +1,7 @@
 #include "text_parsing.h"
 
 //parses the lines of Makefile and blah blah
-int parser(int argc, char** argv){
+int parseTargets(char* target){
     	FILE* file;
     	int buff = 1024;
 	int c;
