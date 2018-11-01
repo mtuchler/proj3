@@ -18,15 +18,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-
-// Declaring and Defining the TreeNode struct
-typedef struct TreeNode TreeNode;
-struct TreeNode {
-        char *name;
-        int line;
-        TreeNode *parent;
-        TreeNode **children;
-        int checked;
-};
+#include "build_spec_repr.h"
 
 #endif
