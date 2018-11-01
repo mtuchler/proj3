@@ -8,16 +8,16 @@ int parser(int argc, char** argv){
 	char *lineBuffer = (char *)malloc(sizeof(char) * buffer);
 	char* token = strok(buff, ":");
 
-	file  = fopen("Makefile","r");
+	file  = fopen(filename, "r");
 	
 	if(file == NULL){
 		printf("Error opening file\n");
 		exit(1);
 	}	
 	else{
-		while(){	
-			if(){
-								
+		while(fgets(buff, sizeof(buff), file) != NULL){	
+			if(token != NULL){
+							
 			}
 		}	
 	}
