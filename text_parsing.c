@@ -19,9 +19,7 @@ FILE* openFile(){
 //function to parse the target of each line
 //inputs buffer to an empty array and pointer to an open file
 //returns line number 
-int  parseTargets(char* name, FILE* file){
-
-	int strLen = strlen(file);
+int parseTargets(char* name, FILE* file){
 
 	if(feof(file)){
 		return -1;
@@ -29,10 +27,12 @@ int  parseTargets(char* name, FILE* file){
 
 	else{
 		while(fgets(line, sizeof line, file)!=NULL){
-			for(int i = 0; i<strlen; i++){
-				lineBuffer[i] = line;
-				lineNum++;
-				name = lineBuffer[0];	
+			if(lineBuffer[i] != ":"){
+				for(int i = 0; i<strlen; i++){
+					lineBuffer[i] = line;
+					lineNum++;
+					name = lineBuffer[0];	
+				}
 			}
 			//handling target
 			//first element of array is the target
@@ -54,13 +54,11 @@ int parseDependencies(int lineNum, FILE* file){
 	}
 
         else{
-		while(fgets(line, sizeof line, file)!=NULL){
-        		if(lineBuffer[i] != "\n"){
-				for(int j = 1; j<sizeOf(lineBuffer); j++){
-					//dependencies start after the comma
-					//put dependencies into a seperate array
-					array[j];
-				}
+		while(fgets(line, sizeof line, file)!="\n"){
+        		for(int j = 1; j<sizeOf(lineBuffer); j++){
+				//dependencies start after the comma
+				//put dependencies into a seperate array
+				array[j];
 			}
                         //handling dependencies
                 }
@@ -69,15 +67,15 @@ int parseDependencies(int lineNum, FILE* file){
 }
 
 //fucniton parses the command line 
-int parseCommand(){
+int parseCommandLine(int argc, char **argv, FILE* file){
 
 	if(feof(file)){
                 return -1;
         }
 	
 	else{
-		while(fgets(line, sizeof line, file)!=NULL){
-			if(lineBuffer[i] != "\t"){
+		while(fgets(line, sizeof line, file) == \t){
+			if(){
 				
 			}
 		}
