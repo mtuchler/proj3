@@ -35,8 +35,8 @@ int  parseTargets(char* name, FILE* file){
 			}
 			//handling target
 			//first element of array is the target
+		return lineBuffer[0];
 		}
-		return lineBuffer[1];
 	}	
 	return lineNum;
 }
@@ -54,10 +54,11 @@ int parseDependencies(int lineNum, FILE* file){
 	}
 
         else{
-        	while(lineBuffer[i] != "\n"){
-			for(int j = 0; j<sizeOf(Array); j++){
-					
-			
+        	while(lineBuffer[i] != "\t"){
+			for(int j = 1; j<sizeOf(lineBuffer); j++){
+				//dependencies start after the comma
+				//put dependencies into a seperate array
+				array[j];
 			}
                         //handling dependencies
                 }
