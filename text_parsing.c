@@ -31,11 +31,11 @@ int  parseTargets(char* name, FILE* file){
 		while(fgets(line, sizeof line, file)!=NULL){
 			for(int i = 0; i<strlen; i++){
 				lineBuffer[i] = line;
-				lineNum++;	
+				lineNum++;
+				name = lineBuffer[0];	
 			}
 			//handling target
 			//first element of array is the target
-		return lineBuffer[0];
 		}
 	}	
 	return lineNum;
@@ -54,14 +54,33 @@ int parseDependencies(int lineNum, FILE* file){
 	}
 
         else{
-        	while(lineBuffer[i] != "\t"){
-			for(int j = 1; j<sizeOf(lineBuffer); j++){
-				//dependencies start after the comma
-				//put dependencies into a seperate array
-				array[j];
+		while(fgets(line, sizeof line, file)!=NULL){
+        		if(lineBuffer[i] != "\n"){
+				for(int j = 1; j<sizeOf(lineBuffer); j++){
+					//dependencies start after the comma
+					//put dependencies into a seperate array
+					array[j];
+				}
 			}
                         //handling dependencies
                 }
         }
+	return NULL;
+}
+
+//fucniton parses the command line 
+int parseCommand(){
+
+	if(feof(file)){
+                return -1;
+        }
+	
+	else{
+		while(fgets(line, sizeof line, file)!=NULL){
+			if(lineBuffer[i] != "\t"){
+				
+			}
+		}
+	}
 	return NULL;
 }
