@@ -1,10 +1,11 @@
 #include "text_parsing.h"
 
-char lineBuffer[BUFF_SIZE];
-int line = 0;
+char* lineBuffer[BUFF_SIZE];
+char line[BUFF_SIZE];
+int lineNum;
 //
 FILE* openFile(){
-	file  = fopen("Makefile", "r");
+	file  = fopen("filename", "r");
 	int c = getc(file);
 
 	if(file == NULL){
@@ -27,22 +28,24 @@ int  parseTargets(char* name, FILE* file){
 	}
 
 	else{
-		while(scanf("%d" , &c) != EOF){
+		while(fgets(line, sizeof line, file)!=NULL){
 			for(int i = 0; i<strlen; i++){
-				
+				lineBuffer[i] = line;
+				lineNum++;	
 			}
 			//handling target
-		
+			//first element of array is the target
 		}
+		return lineBuffer[1];
 	}	
-	return line;
+	return lineNum;
 }
 
 //function to parse the dependencies on each line
 //inputs buffer to an empty array
 //returns an array of strings each one being the name
 //of the dependencies
-int parseDependencies(int line, FILE* file){
+int parseDependencies(int lineNum, FILE* file){
        
 	char* array[];
 
@@ -51,13 +54,11 @@ int parseDependencies(int line, FILE* file){
 	}
 
         else{
-                while(token!=NULL){
-			for(int i = 0; i<sizeOf(Array);i++){
-				
+        	while(lineBuffer[i] != "\n"){
+			for(int j = 0; j<sizeOf(Array); j++){
+					
 			
 			}
-                        printf("%s\n", token);
-                        token = strtok(NULL, ":");
                         //handling dependencies
                 }
         }
