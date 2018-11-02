@@ -21,6 +21,8 @@ FILE* openFile(){
 //returns line number 
 int parseTargets(char* name, FILE* file){
 
+	int strlen = strlen(name);
+
 	if(feof(file)){
 		return -1;
 	}
@@ -54,12 +56,15 @@ int parseDependencies(int lineNum, FILE* file){
 	}
 
         else{
-		while(fgets(line, sizeof line, file)!="\n"){
+		if(lineBuffer =="\n"){
         		for(int j = 1; j<sizeOf(lineBuffer); j++){
 				//dependencies start after the comma
 				//put dependencies into a seperate array
 				array[j];
 			}
+		else if(lineBuffer == "\t"){
+		
+		}
                         //handling dependencies
                 }
         }
