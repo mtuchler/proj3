@@ -22,15 +22,17 @@
 // inputs:	the name of the target file
 // 		the line number
 // return:	pointer to the new Node
-TreeNode nodeInit(char *name, int line) {
-        struct TreeNode node;
+TreeNode* nodeInit(char *name, int line) {
+        TreeNode* node = malloc(sizeof(TreeNode));
         // input given name and line number
-        node.name = malloc(BUFF_SIZE);
-        strcpy(node.name, name);
-        node.line = line;
+        node->name = malloc(BUFF_SIZE);
+        strcpy(node->name, name);
+        node->line = line;
         // for use with DFS
-        node.checked = 0;
+        node->checked = 0;
         // parent and children remain NULL
+	// create space for children
+	node->children = malloc(sizeof(TreeNode*)*MAX_NODES);
 
         return node;
 }
@@ -41,6 +43,8 @@ TreeNode nodeInit(char *name, int line) {
 int nodeFree(TreeNode* node) {
         free(node->name);
         node->name = NULL;
+	free(node);
+	node = NULL;
         return 0;
 }
 
@@ -48,9 +52,13 @@ int nodeFree(TreeNode* node) {
 // passes them into an unsorted array of TreeNodes
 // inputs:	idk
 // return:	idk
-TreeNode* getNodes() {
+TreeNode** getNodes() {
 	// Returned array of TreeNodes
-	TreeNode graph[MAX_NODES];
+	TreeNode* graph[MAX_NODES];
+	// initialize graph to NULL
+	for (int i = 0; i < MAX_NODES; i++) {
+		graph[i] = NULL;
+	}
 	// ints and buffer
 	int nodeIndex = 0;
 	int lineNum = 0
@@ -60,6 +68,9 @@ TreeNode* getNodes() {
 	FILE *f = fileOpen();
 	// Loop thru the file
 	while (lineNum >= 0) {
+		// parseTargets finds the next line with a viable
+		// target and copies it into the input buffer. Then
+		// it returns the line number it found it on
 		lineNum = parseTargets(targetBuff,f);
 		graph[nodeIndex] = nodeInit(targetBuff, lineNum);
 		nodeIndex++;
@@ -73,3 +84,41 @@ TreeNode* getNodes() {
 
         return graph;
 }
+
+// finds a node with a given name in the list
+// inputs:      the nodes name and the graph to search
+// return:      the TreeNode, or NULL if DNE
+TreeNode* find(char* name, TreeNode** graph) {
+        int index = 0;
+        int cmp;
+        // loop until you've hit the max or the end
+        // nodes are filled into the graph L to R
+        while (index < MAX_NODES && graph[index] != NULL) {
+                cmp = strcmp(name, graph[index]->name);
+                if (cmp == 0) {
+                        return graph[index];
+                }
+                else {
+                        index++;
+                }
+        }
+        // if it leaves the loop without finding a node
+        return NULL;
+
+}
+
+// function to add a child to the list
+void parentChild(TreeNode* parent, TreeNode* child) {
+	// set child's parent node
+	child->parent = parent;
+	// add child to parent's array
+	for (int i = 0; i < MAX_NODES; i++) {
+		if (parent->children[i] != NULL) {
+			parent->children[i] = child;
+			return;
+		}
+	}
+	// no space for more children
+	return;
+}
+
