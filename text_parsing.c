@@ -43,7 +43,7 @@ int parseTargets(char* name, FILE* file){
 					//feed the line into the buffer
 					lineBuffer[] = line;	
 				}
-				
+					
 				else{
 					continue;
 				}
@@ -70,13 +70,15 @@ char** parseDependencies(char* name, FILE* file){
 		openFile();
 
 		fscanf(file,"%s ",line);
+		closeFile();
 	}
 
 	//if dependency is the name of another target
 	//commands in specification are ran if the target
 	//is out of date and needed to be ran
 	if(){
-			
+		openFile();
+		closeFile();
 	}	
 	return name;
 }
