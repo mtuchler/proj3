@@ -58,7 +58,26 @@ int parseTargets(char* name, FILE* file){
 //inputs buffer to an empty array
 //returns an array of strings each one being the name
 //of the dependencies
-char** parseDependencies(int lineNum, FILE* file){
+char** parseDependencies(char* name, FILE* file){
+	char array[];
+
+	//if name of dependency matches the name of file
+	//finds the most recently modified file based on time
+	//found in the stat directory
+	if(){
+		strcpy(lineBuffer,"/proc/");
+        	strcat(lineBuffer,pid_str);
+        	strcat(lineBuffer,"/stat");
+
+		fscanf(file,"%s ",lineBuffer);
+	}
+
+	//if dependency is the name of another target
+	//commands in specification are ran if the target
+	//is out of date and needed to be ran
+	if(){
+	
+	}	
 	return NULL;
 }
 
