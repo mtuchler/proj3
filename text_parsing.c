@@ -2,6 +2,7 @@
 
 char* lineBuffer[BUFF_SIZE];
 char line[BUFF_SIZE];
+char c;
 int lineNum;
 
 //file handling method
@@ -33,19 +34,27 @@ int parseTargets(char* name, FILE* file){
 	}
 
 	else{
-		char c;
 		while((c != EOF)){
+			fscanf(file, "%s", line);
+		       	lineNum++;	
+			//for each line in the file
+			for(int i = 0; i<lineNum ; i++){
+				//read til you encounter a colon character
+				if(c == ':'){
+					lineBuffer[] = line;	
+				}
+				
+				else if(c == "\n"){
+					continue;	
+				}
 
-			scanf("%c", &c);
-			//read til you encounter a colon character
-			if(c == ':'){
-				
-			}
-			else if(c == "\n"){
-				
-			}
-			else{
+				else if(c == "\t"){
 					
+				}
+
+				else{
+					
+				}
 			}
 		}
 	}	
