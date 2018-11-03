@@ -19,5 +19,6 @@
 #include <unistd.h>
 #include <string.h>
 #include "build_spec_repr.h"
+#include "text_parsing.h"
 
 #endif

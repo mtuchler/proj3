@@ -18,6 +18,7 @@
 //this method creates a child file from the parent file
 //and makes it run as its own once execvp is called 
 //thus terminates the process once it is finished
+/*
 void fork(){
 	pid_t  pid;
 	pid = fork();
@@ -39,5 +40,6 @@ void fork(){
 	}
 
 }
+*/
 
 

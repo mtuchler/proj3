@@ -14,16 +14,9 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include "build_spec_repr.h"
 
 int main() {
-
-	char **arg = {"ls",NULL};
-
-	printf("before\n");
-
-	execvp("ls", arg);
-
-	printf("after\n");
-
+	printf("main\n");
 	return 0;
 }

@@ -23,7 +23,7 @@ int connectNodes(TreeNode** graph) {
 	// List of strings parsed as dependencies
 	char** dList;
 	
-	FILE* f = fileOpen();
+	FILE* f = openFile();
 
 	// find the number of nodes
 	while(currNode != NULL && numNodes < MAX_NODES) {
@@ -50,6 +50,9 @@ int connectNodes(TreeNode** graph) {
 			j++;
 		}
 	}
+
+	closeFile(f);
+
 	return 0;
 }
 

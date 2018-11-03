@@ -20,5 +20,10 @@
 #include <stdlib.h>
 #define BUFF_SIZE 1024
 
-int parseTargets(char* target);
+FILE* openFile();
+void closeFile(FILE* f);
+int parseTargets(char* target, FILE* file);
+char** parseDependencies(int lineNum, FILE* file);
+int parseCommandLine(int argc, char **argv, FILE* file);
+
 #endif

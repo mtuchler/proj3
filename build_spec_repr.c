@@ -18,6 +18,12 @@
 
 #include "build_spec_repr.h"
 
+// dummy text_parsing fxns
+//FILE* fileOpen() { return NULL; }
+//void fileClose(FILE* f) { fclose(f); return; }
+//int parseTargets(char* name) { return 0; }
+
+
 // function to initialize a new TreeNode
 // inputs:	the name of the target file
 // 		the line number
@@ -61,17 +67,17 @@ TreeNode** getNodes() {
 	}
 	// ints and buffer
 	int nodeIndex = 0;
-	int lineNum = 0
+	int lineNum = 0;
 	char* targetBuff = malloc(BUFF_SIZE);
 
 	// Pointer to the open file
-	FILE *f = fileOpen();
+	FILE *f = openFile();
 	// Loop thru the file
 	while (lineNum >= 0) {
 		// parseTargets finds the next line with a viable
 		// target and copies it into the input buffer. Then
 		// it returns the line number it found it on
-		lineNum = parseTargets(targetBuff,f);
+		lineNum = parseTargets(targetBuff, f);
 		graph[nodeIndex] = nodeInit(targetBuff, lineNum);
 		nodeIndex++;
 		if (nodeIndex == MAX_NODES) {
@@ -80,7 +86,7 @@ TreeNode** getNodes() {
 		}
 	}
 	// Close the file
-	fileClose(f);
+	closeFile(f);
 
         return graph;
 }
@@ -122,3 +128,11 @@ void parentChild(TreeNode* parent, TreeNode* child) {
 	return;
 }
 
+void printTree(TreeNode** graph) {
+	int i = 0;
+	while (i < MAX_NODES && graph[i] != NULL) {
+		printf("%i: %s\n", i, graph[i]->name);
+		i++;
+	}
+	return;
+}

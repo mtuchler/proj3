@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include "text_parsing.h"
 
 // Declaring and Defining the TreeNode struct
@@ -37,5 +38,8 @@ static const int MAX_NODES = 64;
 TreeNode* nodeInit(char* name, int line);
 int nodeFree(TreeNode* node);
 TreeNode** getNodes();
+TreeNode* find(char* name, TreeNode** graph);
+void parentChild(TreeNode* parent, TreeNode* child);
+void printTree(TreeNode** graph);
 
 #endif

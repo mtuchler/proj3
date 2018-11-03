@@ -12,6 +12,11 @@
 //
 /////////////////////////////////////////////////
 
+#ifndef PROG_CREATION_PROC_EXE_H
+#define PROG_CREATION_PROC_EXE_H
+
 #include <stdio.h>
-#include <stlib.h>
+#include <stdlib.h>
 #include <sys/wait.h>
+
+#endif
