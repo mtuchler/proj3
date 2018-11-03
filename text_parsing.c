@@ -5,7 +5,7 @@ char line[BUFF_SIZE];
 char c;
 int lineNum;
 
-//file handling method
+//opens the file and error handles
 FILE* openFile(){
 	FILE* file  = fopen("filename", "r");
 
@@ -28,7 +28,6 @@ void closeFile(FILE* f) {
 //returns line number 
 int parseTargets(char* name, FILE* file){
 
-	// dummy text for fewer errors
 	if (file == NULL && name == NULL){
 		return 1; 
 	}
@@ -65,20 +64,21 @@ char** parseDependencies(char* name, FILE* file){
 	//finds the most recently modified file based on time
 	//found in the stat directory
 	if(){
-		strcpy(lineBuffer,"/proc/");
-        	strcat(lineBuffer,pid_str);
-        	strcat(lineBuffer,"/stat");
+		strcpy(line,"/proc/");
+        	strcat(line,pid_t);
+        	strcat(line,"/stat");
+		openFile();
 
-		fscanf(file,"%s ",lineBuffer);
+		fscanf(file,"%s ",line);
 	}
 
 	//if dependency is the name of another target
 	//commands in specification are ran if the target
 	//is out of date and needed to be ran
 	if(){
-	
+			
 	}	
-	return NULL;
+	return name;
 }
 
 //fucniton parses the command line 
