@@ -40,20 +40,13 @@ int parseTargets(char* name, FILE* file){
 			//for each line in the file
 			for(int i = 0; i<lineNum ; i++){
 				//read til you encounter a colon character
-				if(c == ':'){
+				if(c == ':' || c == " "){
+					//feed the line into the buffer
 					lineBuffer[] = line;	
 				}
 				
-				else if(c == "\n"){
-					continue;	
-				}
-
-				else if(c == "\t"){
-					
-				}
-
 				else{
-					
+					continue;
 				}
 			}
 		}
@@ -76,6 +69,20 @@ int parseCommandLine(int argc, char **argv, FILE* file){
 		return 1;
 	}
 	else{
+		while((c != EOF)){
+                        fscanf(file, "%s", line);
+                        lineNum++;
+                        //for each line in the file
+                        for(int i = 0; i<lineNum ; i++){
+                                //read til you encounter a tab character
+                                if(c == "/t"){
+                                        //feed the line into the buffer
+                                        lineBuffer[] = line;    
+                                }
+                                
+                                else{
+                                        continue;
+				}
 
 	}
 	return 0;
