@@ -59,6 +59,11 @@ int connectNodes(TreeNode** graph) {
 // using a DFS, creates a build order for the Makefile
 // also checks for cycles, which are bad
 int buildOrder() {
+	// 1) determine the root node (from cmdline)
+	// 2) call DFS on root node
+	// 3) check loops? fuck i dont remember
+
+
 	return 0;
 }
 
