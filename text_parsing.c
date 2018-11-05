@@ -85,8 +85,15 @@ char** parseDependencies(char* name, FILE* file){
 }
 
 //fucniton parses the command line 
-int parseCommandLine(int argc, char **argv, FILE* file){
+//returns a string that helps us find the right root node
+//returns NULL for no instruction 
+char* parseCommandLine() { //int argc, char **argv, FILE* file){
 
+	char* result = malloc(BUFF_SIZE);
+	// consider passing in the cmdline from /proc so you don't have to
+	// so you don't need the arguments I commented out
+
+	// dummy text, please delete
 	if(argc == 0 && argv == NULL && file == NULL){
 		return 1;
 	}
@@ -107,5 +114,5 @@ int parseCommandLine(int argc, char **argv, FILE* file){
 				}
 
 	}
-	return 0;
+	return result;
 }
