@@ -17,12 +17,6 @@ FILE* openFile(){
 	return file;
 }
 
-//method to close the file once it has been openend
-void closeFile(FILE* f) {
-	fclose(f);
-	return;
-}
-
 //function to parse the target of each line
 //inputs buffer to an empty array and pointer to an open file
 //returns line number 
@@ -45,6 +39,7 @@ int parseTargets(char* name, FILE* file){
 				}
 					
 				else{
+					if(c!= "\t")
 					continue;
 				}
 			}
@@ -53,40 +48,40 @@ int parseTargets(char* name, FILE* file){
 	return 0;
 }
 
-//function to parse the dependencies on each line
-//inputs buffer to an empty array
-//returns an array of strings each one being the name
-//of the dependencies
+//function to handle the dependencies as they could be the
+//name of another target or name of another file 
+//takes reads each line in from the line buffer checking for
+//dependencies.
 char** parseDependencies(char* name, FILE* file){
-	char array[];
+	for(int i = 0; i<lineBuffer[];i++){ 
+		//if name of dependency matches the name of file
+		//finds the most recently modified file based on time
+		//found in the stat directory
+		if(){
+			strcpy(line,"/proc/");
+        		strcat(line,pid_t);
+        		strcat(line,"/stat");
+			openFile();
 
-	//if name of dependency matches the name of file
-	//finds the most recently modified file based on time
-	//found in the stat directory
-	if(){
-		strcpy(line,"/proc/");
-        	strcat(line,pid_t);
-        	strcat(line,"/stat");
-		openFile();
+			fscanf(file,"%s ",line);
+			closeFile(file);
+		}
 
-		fscanf(file,"%s ",line);
-		closeFile();
+		//if dependency is the name of another target
+		//commands in specification are ran if the target
+		//is out of date and needed to be ran
+		if(){
+			openFile();
+			closeFile(file);
+		}	
+	return 0;
 	}
-
-	//if dependency is the name of another target
-	//commands in specification are ran if the target
-	//is out of date and needed to be ran
-	if(){
-		openFile();
-		closeFile();
-	}	
-	return name;
 }
 
 //fucniton parses the command line 
 int parseCommandLine(int argc, char **argv, FILE* file){
 
-	if (argc == 0 && argv == NULL && file == NULL){
+	if(argc == 0 && argv == NULL && file == NULL){
 		return 1;
 	}
 	else{
@@ -96,7 +91,7 @@ int parseCommandLine(int argc, char **argv, FILE* file){
                         //for each line in the file
                         for(int i = 0; i<lineNum ; i++){
                                 //read til you encounter a tab character
-                                if(c == "/t"){
+                                if(c == "\t"){
                                         //feed the line into the buffer
                                         lineBuffer[] = line;    
                                 }
@@ -108,3 +103,10 @@ int parseCommandLine(int argc, char **argv, FILE* file){
 	}
 	return 0;
 }
+
+//method to close the file once it has been openend
+void closeFile(FILE* file) {
+        fclose(file);
+        return;
+}
+
