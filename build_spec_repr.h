@@ -28,6 +28,7 @@ struct TreeNode {
         int line;
         TreeNode *parent;
         TreeNode **children;
+	int numchild;
         int checked;
 };
 

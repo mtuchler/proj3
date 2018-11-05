@@ -58,7 +58,9 @@ int connectNodes(TreeNode** graph) {
 
 // using a DFS, creates a build order for the Makefile
 // also checks for cycles, which are bad
-int buildOrder(TreeNode** graph) {
+// input:	the graph, i.e. list of node*s
+// return:	list of node*s in build/execution order
+TreeNode** buildOrder(TreeNode** graph) {
 	// 1) determine the root node (from cmdline)
 	char* cmdline = parseCommandLine();
 	TreeNode* root = find(cmdline, graph);
@@ -67,11 +69,13 @@ int buildOrder(TreeNode** graph) {
 		printf("Invalid make argument: %s\n", cmdline);
 		exit(1);
 	}
-	// 2) call DFS on root node
-	
-	// 3) check loops? fuck i dont remember
+	// 2) initialize new buildOrder array
+	TreeNode* order[MAX_NODES];
+	for (int i = 0; i < MAX_NODES; i++) {
+		order[i] == NULL;
+	}
+	// 3) call DFS on root node
+	DFS(root, order);
 
-
-	return 0;
+	return order;
 }
-
