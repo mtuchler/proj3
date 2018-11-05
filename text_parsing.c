@@ -17,6 +17,12 @@ FILE* openFile(){
 	return file;
 }
 
+//method to close the file once it has been openend
+void closeFile(FILE* file) {
+        fclose(file);
+        return;
+}
+
 //function to parse the target of each line
 //inputs buffer to an empty array and pointer to an open file
 //returns line number 
@@ -103,10 +109,3 @@ int parseCommandLine(int argc, char **argv, FILE* file){
 	}
 	return 0;
 }
-
-//method to close the file once it has been openend
-void closeFile(FILE* file) {
-        fclose(file);
-        return;
-}
-
