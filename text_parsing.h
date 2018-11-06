@@ -20,10 +20,13 @@
 #include <stdlib.h>
 #define BUFF_SIZE 1024
 
+static const int MAX_NODES = 64;
+static const int CMD_SIZE = 64;
+
 FILE* openFile();
 void closeFile(FILE* f);
 int parseTargets(char* target, FILE* file);
-char** parseDependencies(int lineNum, FILE* file);
+char** parseDependencies(int lineNum);
 int parseCommandLine(int argc, char **argv, FILE* file);
 
 #endif
