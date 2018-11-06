@@ -22,8 +22,6 @@ int connectNodes(TreeNode** graph) {
 	int numNodes = 0;
 	// List of strings parsed as dependencies
 	char** dList;
-	
-	FILE* f = openFile();
 
 	// find the number of nodes
 	while(currNode != NULL && numNodes < MAX_NODES) {
@@ -35,7 +33,7 @@ int connectNodes(TreeNode** graph) {
 	// if successful, graph[i] is parent of graph[k]
 	for (int i = 0; i < numNodes; i++) {
 		currNode = graph[i];
-		dList = parseDependencies(currNode->line, f);
+		dList = parseDependencies(currNode->line);
 		// loop through dependencies to see if they are nodes
 		int j = 0;
 		while (dList[j] != NULL) {
@@ -50,8 +48,6 @@ int connectNodes(TreeNode** graph) {
 			j++;
 		}
 	}
-
-	closeFile(f);
 
 	return 0;
 }
