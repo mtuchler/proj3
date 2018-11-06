@@ -30,19 +30,9 @@ void execNode(TreeNode* node){
 	pid_t parent = getpid();
 	pid_t pid;
 	int status;
-
-	//components for running fstat to find the time
-	//of modification on files
-	int i = 0;
-	struct stat st;
 	
 	//used to store the arguments from the command line
-	char* argv[MAX_ARGS];
-
-	//call to fstat is made
-	if(fstat(i, &st) < 0){ 
-        	return 1;
-	}	
+	char* argv[MAX_ARGS];	
 
 	while (i < MAX_NODES && order[i] != NULL) {
 		
@@ -78,5 +68,18 @@ void execNode(TreeNode* node){
 // input:	idk yet
 // return:	1 if it needs update, 0 if it doesnt
 int timeCheck(){
+
+	//components for running fstat to find the time
+        //of modification on files
+        int i = 0;
+        struct stat st;
+
+	//call to fstat is made
+        if(fstat(i, &st) < 0){ 
+                return 1;
+        }
+
+        //use st_mtime to find the last modification time
+
 	return 0;
 }
