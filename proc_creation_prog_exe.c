@@ -25,7 +25,7 @@ void execNode(TreeNode* node){
 	TreeNode** graph = getNodes();
 	connectNodes(graph);
 	TreeNode** order = buildOrder(graph);
-
+	
 	//components used for forking processes
 	pid_t parent = getpid();
 	pid_t pid;
@@ -36,6 +36,8 @@ void execNode(TreeNode* node){
 	char* argv[MAX_ARGS];
 
 	while (i < MAX_NODES && order[i] != NULL) {
+		
+		//creating and checking processes forked 
 		pid = fork();
 		if(pid < 0){
 			printf("Process could not be forked\n");
@@ -44,14 +46,16 @@ void execNode(TreeNode* node){
 
 		else if(pid == 0){
 			pid = getpid();
-			execvp(argv[0], argv);;
+			timeCheck();
+			execvp(argv[0], argv);
 			exit(0);
 		}
 
 		else{ 
+			timeCheck();
 			wait(pid, &status);
-			
 		}
+	
 		
 
 	*/	
@@ -66,6 +70,6 @@ void execNode(TreeNode* node){
 // last compile
 // input:	idk yet
 // return:	1 if it needs update, 0 if it doesnt
-int timeCheck() {
+int timeCheck(){
 	return 0;
 }
