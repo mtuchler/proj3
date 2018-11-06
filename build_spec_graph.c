@@ -58,7 +58,7 @@ int connectNodes(TreeNode** graph) {
 // return:	list of node*s in build/execution order
 TreeNode** buildOrder(TreeNode** graph) {
 	// 1) determine the root node (from cmdline)
-	char* cmdline = parseCommandLine();
+	char* cmdline = NULL;//TODO parseRoot();
 	TreeNode* root = find(cmdline, graph);
 	// handle NULL input
 	if (root == NULL) {
