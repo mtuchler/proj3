@@ -34,6 +34,7 @@ TreeNode* nodeInit(char *name, int line) {
 	// create space for children
 	node->children = malloc(sizeof(TreeNode*)*MAX_NODES);
 	node->numchild = 0;
+	node->modtime = -1;
 
         return node;
 }
@@ -147,7 +148,20 @@ void DFS(TreeNode* node, TreeNode** order) {
 	return;
 }
 
+void getModTime(TreeNode* node) {
+	
+	// check if node represents a file in current directory
+	if (access(node->name, F_OK) != 0) {
+		// not a file
+		// ignore it i guess, that's ok
+	}
 
+	
+	
+
+	
+	return;
+}
 
 void printTree(TreeNode** graph) {
 	int i = 0;

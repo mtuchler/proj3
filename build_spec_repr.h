@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/stat>
 #include "text_parsing.h"
 
 // Declaring and Defining the TreeNode struct
@@ -30,12 +31,14 @@ struct TreeNode {
         TreeNode **children;
 	int numchild;
         int checked;
+	int modtime;
 };
 
 // Declaring functions
 TreeNode* nodeInit(char* name, int line);
 int nodeFree(TreeNode* node);
 TreeNode** getNodes();
+void getModTime(TreeNode* node);
 TreeNode* find(char* name, TreeNode** graph);
 void parentChild(TreeNode* parent, TreeNode* child);
 void DFS(TreeNode* node, TreeNode** order);
