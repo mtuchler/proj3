@@ -66,9 +66,9 @@ TreeNode** buildOrder(TreeNode** graph) {
 		exit(1);
 	}
 	// 2) initialize new buildOrder array
-	TreeNode* order[MAX_NODES];
+	TreeNode** order = malloc(sizeof(TreeNode*)*MAX_NODES);
 	for (int i = 0; i < MAX_NODES; i++) {
-		order[i] == NULL;
+		order[i] = NULL;
 	}
 	// 3) call DFS on root node
 	DFS(root, order);

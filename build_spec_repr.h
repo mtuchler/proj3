@@ -38,6 +38,7 @@ int nodeFree(TreeNode* node);
 TreeNode** getNodes();
 TreeNode* find(char* name, TreeNode** graph);
 void parentChild(TreeNode* parent, TreeNode* child);
+void DFS(TreeNode* node, TreeNode** order);
 void printTree(TreeNode** graph);
 
 #endif

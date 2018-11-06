@@ -42,13 +42,14 @@ void closeFile(FILE* file) {
 int parseTargets(char* name, FILE* file){
 	
 	char* token;
+	char delim = ':';
 
-	while((c != EOF)){
+	while(!feof(file)){
 		fscanf(file, "%s", line);
 
 		//read til you encounter a colon character
 		if(line[0] != '\n' && line[0] != '\t'){	
-			token = strtok(line, ':');
+			token = strtok(line, &delim);
 		}
 
 		if (token == NULL){
@@ -71,7 +72,7 @@ char** parseDependencies(int lineNum){
 	
 	FILE* file = openFile();
 
-	char* dList[MAX_NODES];
+	char** dList = malloc(sizeof(char*)*MAX_NODES);
 	char c = fgetc(file);
 	char* token1;
 
@@ -92,12 +93,13 @@ char** parseDependencies(int lineNum){
 	}
 
 	int index = 0;
-	strtok(line, ' ');
-	token1 = strtok(line, ' ');
+	int delim = ' ';
+	strtok(line, &delim);
+	token1 = strtok(line, &delim);
 	while(token1 != NULL && index < MAX_NODES){
 		strcpy(dList[index],token1);
 		index++;
-		token1 = strtok(line, ' ');
+		token1 = strtok(line, &delim);
 	}
 	
 	closeFile(file);
@@ -105,52 +107,21 @@ char** parseDependencies(int lineNum){
 	return dList;
 }
 
-<<<<<<< HEAD
 //function parses the command line
 //reads up to the line if starts with a tab character
 //return an array of strings that are passed into execvp() 
 int parseCommandLine(int lineNum){
 	
 	FILE* file = openFile();
-	
-	char* array[BUFF_SIZE];
-        char c = fgetc(file);
+
+	// initialize/malloc array and some variables	
+	char** array = malloc(sizeof(char*)*CMD_SIZE);
+	for (int n = 0; n < CMD_SIZE; n++) {
+                array[n] = malloc(CMD_SIZE);
+        }
+	char c = fgetc(file);
 	char* token2;
 
-	for (int n = 0; n < CMD_SIZE; n++) {
-                array[n] = malloc(BUFF_SIZE);
-        }
-
-=======
-//fucniton parses the command line 
-//returns a string that helps us find the right root node
-//returns NULL for no instruction 
-char* parseCommandLine() { //int argc, char **argv, FILE* file){
-
-	char* result = malloc(BUFF_SIZE);
-	// consider passing in the cmdline from /proc so you don't have to
-	// so you don't need the arguments I commented out
-
-	// dummy text, please delete
-	if(argc == 0 && argv == NULL && file == NULL){
-		return 1;
-	}
-	else{
-		while((c != EOF)){
-                        fscanf(file, "%s", line);
-                        lineNum++;
-                        //for each line in the file
-                        for(int i = 0; i<lineNum ; i++){
-                                //read til you encounter a tab character
-                                if(c == "\t"){
-                                        //feed the line into the buffer
-                                        lineBuffer[] = line;    
-                                }
-                                
-                                else{
-                                        continue;
-				}
->>>>>>> 467cf53530bf27ba71cf1121ebbb83c3b4e7a75c
 
         //read each lineNum and throws out the newline
         for(int d = 1; d < lineNum; d++){
@@ -164,7 +135,6 @@ char* parseCommandLine() { //int argc, char **argv, FILE* file){
 	if (c != '\t') {
 		return NULL;
 	}
-<<<<<<< HEAD
 
 	// read in line
 	for(int e = 0; e < BUFF_SIZE; e++){
@@ -190,10 +160,6 @@ char* parseCommandLine() { //int argc, char **argv, FILE* file){
                 token2 = strtok(line, ' ');
         }
 
-
 	closeFile(file);
 	return array;
-=======
-	return result;
->>>>>>> 467cf53530bf27ba71cf1121ebbb83c3b4e7a75c
 }
