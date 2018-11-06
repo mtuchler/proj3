@@ -46,13 +46,13 @@ void execNode(TreeNode* node){
 
 		else if(pid == 0){
 			pid = getpid();
-			timeCheck();
+			timeCheck(st_mtime);
 			execvp(argv[0], argv);
 			exit(0);
 		}
 
 		else{ 
-			timeCheck();
+			timeCheck(st_mtime);
 			wait(pid, &status);
 		}
 	
