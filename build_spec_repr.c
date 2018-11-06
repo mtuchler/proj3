@@ -39,6 +39,7 @@ TreeNode* nodeInit(char *name, int line) {
         // parent and children remain NULL
 	// create space for children
 	node->children = malloc(sizeof(TreeNode*)*MAX_NODES);
+	node->numchild = 0;
 
         return node;
 }
@@ -118,15 +119,41 @@ void parentChild(TreeNode* parent, TreeNode* child) {
 	// set child's parent node
 	child->parent = parent;
 	// add child to parent's array
-	for (int i = 0; i < MAX_NODES; i++) {
-		if (parent->children[i] != NULL) {
-			parent->children[i] = child;
-			return;
-		}
-	}
+	parent->children[parent->numchild] = child;
+	parent->numchild++;
 	// no space for more children
 	return;
 }
+
+// DFS function
+void DFS(TreeNode* node, TreeNode** order) {
+	// finds if the node is in a loop
+	node->checked == 1;
+
+	for (int i = 0; i < node->numchild; i++) {
+		// is this a proper loop check?
+		if (node->children[i]->checked) {
+			printf("Error: dependency loop found in makefile\n");
+			exit();
+		}
+		
+		// 
+		DFS(node->children[i]);
+	}
+
+	// once your done DFS'ing through node's children
+	// you're ready to add it to order
+	int j = 0;
+	while (j < MAX_NODES && order[j] != NULL) {
+		j++;
+	}
+	// settles on next index w/o a node
+	order[j] = node;
+
+	return;
+}
+
+
 
 void printTree(TreeNode** graph) {
 	int i = 0;
@@ -136,3 +163,5 @@ void printTree(TreeNode** graph) {
 	}
 	return;
 }
+
+

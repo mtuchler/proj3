@@ -22,8 +22,6 @@ int connectNodes(TreeNode** graph) {
 	int numNodes = 0;
 	// List of strings parsed as dependencies
 	char** dList;
-	
-	FILE* f = openFile();
 
 	// find the number of nodes
 	while(currNode != NULL && numNodes < MAX_NODES) {
@@ -35,7 +33,7 @@ int connectNodes(TreeNode** graph) {
 	// if successful, graph[i] is parent of graph[k]
 	for (int i = 0; i < numNodes; i++) {
 		currNode = graph[i];
-		dList = parseDependencies(currNode->line, f);
+		dList = parseDependencies(currNode->line);
 		// loop through dependencies to see if they are nodes
 		int j = 0;
 		while (dList[j] != NULL) {
@@ -51,19 +49,29 @@ int connectNodes(TreeNode** graph) {
 		}
 	}
 
-	closeFile(f);
-
 	return 0;
 }
 
 // using a DFS, creates a build order for the Makefile
 // also checks for cycles, which are bad
-int buildOrder() {
+// input:	the graph, i.e. list of node*s
+// return:	list of node*s in build/execution order
+TreeNode** buildOrder(TreeNode** graph) {
 	// 1) determine the root node (from cmdline)
-	// 2) call DFS on root node
-	// 3) check loops? fuck i dont remember
+	char* cmdline = parseCommandLine();
+	TreeNode* root = find(cmdline, graph);
+	// handle NULL input
+	if (root == NULL) {
+		printf("Invalid make argument: %s\n", cmdline);
+		exit(1);
+	}
+	// 2) initialize new buildOrder array
+	TreeNode* order[MAX_NODES];
+	for (int i = 0; i < MAX_NODES; i++) {
+		order[i] == NULL;
+	}
+	// 3) call DFS on root node
+	DFS(root, order);
 
-
-	return 0;
+	return order;
 }
-

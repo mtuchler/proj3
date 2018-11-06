@@ -28,11 +28,9 @@ struct TreeNode {
         int line;
         TreeNode *parent;
         TreeNode **children;
+	int numchild;
         int checked;
 };
-
-// Constants
-static const int MAX_NODES = 64;
 
 // Declaring functions
 TreeNode* nodeInit(char* name, int line);

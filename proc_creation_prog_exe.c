@@ -18,28 +18,30 @@
 //this method creates a child file from the parent file
 //and makes it run as its own once execvp is called 
 //thus terminates the process once it is finished
-/*
-void fork(){
-	pid_t  pid;
-	pid = fork();
-	char buff;
-	char imput[256];
-	char * arg[];
+void execNode(TreeNode* node){
+	/* THIS IS SOME MAIN METHOD BUSINESS
+	 *
+	// create a graph and put it in build-order
+	TreeNode** graph = getNodes();
+	TreeNode** order = buildOrder(graph);
 
-	//checks if pid is valid or not of the child process
-	if (pid < 0){
-		printf("Error occured, could not fork\n");
-	}
-	//if the child process is found, execute it and terminate once finished
-	if(pid == 0){
-		execvp(arg[0], arg);	
-	}
-	//wait for a child process to be found
-	else{
-		wait();
-	}
+	pid_t pid;
 
+	int i = 0;
+	while (i < MAX_NODES && order[i] != NULL) {
+	*/	
+
+	// 1) parse Makefile for commands
+	// 2) check if its up to date?
+	// 3) loop thru commands, running fork/exec/wait
+	
+	return;
 }
-*/
 
-
+// method used to determine if the file has been updated since
+// last compile
+// input:	idk yet
+// return:	1 if it needs update, 0 if it doesnt
+int timeCheck() {
+	return 0;
+}
