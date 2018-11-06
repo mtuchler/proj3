@@ -18,12 +18,6 @@
 
 #include "build_spec_repr.h"
 
-// dummy text_parsing fxns
-//FILE* fileOpen() { return NULL; }
-//void fileClose(FILE* f) { fclose(f); return; }
-//int parseTargets(char* name) { return 0; }
-
-
 // function to initialize a new TreeNode
 // inputs:	the name of the target file
 // 		the line number
@@ -61,7 +55,7 @@ int nodeFree(TreeNode* node) {
 // return:	idk
 TreeNode** getNodes() {
 	// Returned array of TreeNodes
-	TreeNode* graph[MAX_NODES];
+	TreeNode** graph = malloc(sizeof(TreeNode*)*MAX_NODES);
 	// initialize graph to NULL
 	for (int i = 0; i < MAX_NODES; i++) {
 		graph[i] = NULL;
@@ -128,17 +122,17 @@ void parentChild(TreeNode* parent, TreeNode* child) {
 // DFS function
 void DFS(TreeNode* node, TreeNode** order) {
 	// finds if the node is in a loop
-	node->checked == 1;
+	node->checked = 1;
 
 	for (int i = 0; i < node->numchild; i++) {
 		// is this a proper loop check?
 		if (node->children[i]->checked) {
 			printf("Error: dependency loop found in makefile\n");
-			exit();
+			exit(1);
 		}
 		
 		// 
-		DFS(node->children[i]);
+		DFS(node->children[i], order);
 	}
 
 	// once your done DFS'ing through node's children
