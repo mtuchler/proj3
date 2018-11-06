@@ -25,9 +25,13 @@ void execNode(TreeNode* node){
 	TreeNode** graph = getNodes();
 	connectNodes(graph);
 	TreeNode** order = buildOrder(graph);
+
+	//components used for forking processes
 	pid_t parent = getpid();
 	pid_t pid;
+	int status;
 	int i = 0;
+
 	//used to store the arguments from the command line
 	char* argv[MAX_ARGS];
 
@@ -39,13 +43,12 @@ void execNode(TreeNode* node){
 		}
 
 		else if(pid == 0){
-			execvp(argv[0], argv);
-			wait(i);
+			pid = getpid();
+			execvp(argv[0], argv);;
 			exit(0);
 		}
 
-		else{
-			int status; 
+		else{ 
 			wait(pid, &status);
 			
 		}
