@@ -23,6 +23,7 @@ void execNode(TreeNode* node){
 	 *
 	// create a graph and put it in build-order
 	TreeNode** graph = getNodes();
+	connectNodes(graph);
 	TreeNode** order = buildOrder(graph);
 
 	pid_t pid;

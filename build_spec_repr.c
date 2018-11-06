@@ -68,7 +68,7 @@ TreeNode** getNodes() {
 	// Pointer to the open file
 	FILE *f = openFile();
 	// Loop thru the file
-	while (lineNum >= 0) {
+	while (lineNum > 0) {
 		// parseTargets finds the next line with a viable
 		// target and copies it into the input buffer. Then
 		// it returns the line number it found it on
