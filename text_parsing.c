@@ -93,7 +93,7 @@ char** parseDependencies(int lineNum){
 	}
 
 	int index = 0;
-	int delim = ' ';
+	char delim = ' ';
 	strtok(line, &delim);
 	token1 = strtok(line, &delim);
 	while(token1 != NULL && index < MAX_NODES){
@@ -110,7 +110,7 @@ char** parseDependencies(int lineNum){
 //function parses the command line
 //reads up to the line if starts with a tab character
 //return an array of strings that are passed into execvp() 
-int parseCommandLine(int lineNum){
+char** parseCommandLine(int lineNum){
 	
 	FILE* file = openFile();
 
@@ -152,12 +152,13 @@ int parseCommandLine(int lineNum){
         }
 
 	int index = 0;
-        strtok(line, '\t');
-        token2 = strtok(line, ' ');
+	char delim = ' ';
+        strtok(line, "\t");
+        token2 = strtok(line, &delim);
         while(token2 != NULL && index < CMD_SIZE){
                 strcpy(array[index],token2);
                 index++;
-                token2 = strtok(line, ' ');
+                token2 = strtok(line, &delim);
         }
 
 	closeFile(file);
