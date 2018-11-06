@@ -27,11 +27,28 @@ void execNode(TreeNode* node){
 	TreeNode** order = buildOrder(graph);
 
 	pid_t pid;
-
 	int i = 0;
-	while (i < MAX_NODES && order[i] != NULL) {
-	*/	
+	//used to store the arguments from the command line
+	char* argv[MAX_ARGS];
 
+	while (i < MAX_NODES && order[i] != NULL) {
+		pid = fork();
+		if(pid < 0){
+			printf("Process could not be forked\n");
+			exit(1);
+		}
+		else if(pid == 0){
+			execvp(argv[0], argv);
+			wait(i);
+			exit(0);
+		}
+		else{
+			wait();
+			
+		}
+		
+
+	*/	
 	// 1) parse Makefile for commands
 	// 2) check if its up to date?
 	// 3) loop thru commands, running fork/exec/wait
