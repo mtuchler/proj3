@@ -34,7 +34,6 @@ TreeNode* nodeInit(char *name, int line) {
 	// create space for children
 	node->children = malloc(sizeof(TreeNode*)*MAX_NODES);
 	node->numchild = 0;
-	node->modtime = -1;
 
         return node;
 }

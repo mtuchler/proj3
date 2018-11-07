@@ -19,9 +19,8 @@
 //and makes it run as its own once execvp is called 
 //thus terminates the process once it is finished
 void execNode(TreeNode* node){
-	/* THIS IS SOME MAIN METHOD BUSINESS
-	 *
-	// create a graph and put it in build-order
+
+	/*// create a graph and put it in build-order
 	TreeNode** graph = getNodes();
 	connectNodes(graph);
 	TreeNode** order = buildOrder(graph);
@@ -51,16 +50,42 @@ void execNode(TreeNode* node){
 
 		else{ 
 			wait(pid, &status);
-		}
-	
-		
+		}	
 
 	*/	
 	// 1) parse Makefile for commands
 	// 2) check if its up to date?
 	// 3) loop thru commands, running fork/exec/wait
-	
-	return 0;
+	int line = node->line;
+	char** cmdList;
+	pid_t pid;
+
+	//not a target 
+	if(line == -1){
+		return;
+	}
+
+	else{
+		while((cmdList = parseCommandLine(node->line) != NULL)){
+			pid = fork();
+
+			if(pid < 0){
+                        	printf("Process could not be forked\n");
+                       		exit(1);
+                	}
+
+                	else if(pid == 0){
+                        	pid = getpid();
+                        	execvp(cmdList[0], cmdList);
+				wait(&status);
+                	}
+			else{
+				wait(pid, &status);
+			}	
+		}
+		
+	}
+	return;
 }
 
 static time_t getFileModifiedTime(const char *path)

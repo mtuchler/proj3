@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <sys/stat>
+#include <sys/stat.h>
 #include "text_parsing.h"
 
 // Declaring and Defining the TreeNode struct
