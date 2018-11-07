@@ -110,6 +110,7 @@ char** parseDependencies(int lineNum){
 //function parses the command line
 //reads up to the line if starts with a tab character
 //return an array of strings that are passed into execvp() 
+//returns NULL on end of cmd lines or EOF
 char** parseCommandLine(int lineNum){
 	
 	FILE* file = openFile();
@@ -133,7 +134,14 @@ char** parseCommandLine(int lineNum){
 	// check if viable command line
 	c = fgetc(file);
 	if (c != '\t') {
-		return NULL;
+		// TODO Accept a line that starts with a newline
+		if (c == '\n') {
+			array[0] = "";
+			return array;
+		}
+		else {
+			return NULL;
+		}
 	}
 
 	// read in line
