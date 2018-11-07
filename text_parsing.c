@@ -19,8 +19,8 @@ char line[BUFF_SIZE];
 int lineNum;
 
 //opens the file and error handles
-FILE* openFile(){
-	FILE* file  = fopen("filename", "r");
+FILE* openFile( char* filename){
+	FILE* file  = fopen(filename, "r");
 
 	if(file == NULL){
                 printf("Error opening file\n");
