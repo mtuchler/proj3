@@ -23,7 +23,7 @@
 static const int MAX_NODES = 64;
 static const int CMD_SIZE = 64;
 
-FILE* openFile(char* filename);
+FILE* openFile();
 void closeFile(FILE* f);
 int parseTargets(char* target, FILE* file);
 char** parseDependencies(int lineNum);
