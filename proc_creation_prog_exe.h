@@ -24,10 +24,4 @@
 #include <time.h>
 #include "build_spec_graph.h"
 
-struct stat{  
-               time_t    st_atime;   /* time of last access */ 
-               time_t    st_mtime;   /* time of last modification */ 
-               time_t    st_ctime;   /* time of last status change */ 
-          };
-
 #endif

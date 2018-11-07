@@ -63,23 +63,39 @@ void execNode(TreeNode* node){
 	return 0;
 }
 
+static time_t getFileModifiedTime(const char *path)
+{
+    struct stat attr;
+    if (stat(path, &attr) == 0)
+    {
+        return attr.st_mtime;
+    }
+    return 0;
+}
+
 // method used to determine if the file has been updated since
 // last compile
 // input:	idk yet
 // return:	1 if it needs update, 0 if it doesnt
-int timeCheck(){
+int timeCheck(TreeNode* node){
+	// file check - if its a node but not a file, run its commands
+	if (access(node->name, F_OK) != 0) {
+		return 1;
+	}
 
-	//components for running fstat to find the time
-        //of modification on files
-        int i = 0;
-        struct stat st;
+	time_t t_node = getFileModifiedTime(node->name);
+	time_t t_child;
 
-	//call to fstat is made
-        if(fstat(i, &st) < 0){ 
-                return 1;
-        }
-
-        //use st_mtime to find the last modification time
+	// loop thru children
+	for (int i = 0; i < node->numchild; i++) {
+		//do thing
+		t_child = getFileModifiedTime(node->children[i]->name);
+		// if child was modified MORE SECONDS after the parent,
+		// then parent needs to be recompiled.
+		if( difftime(t_node, t_child) <= 0 ) {
+			return 1;
+		}
+	}
 
 	return 0;
 }
