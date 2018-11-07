@@ -59,14 +59,16 @@ void execNode(TreeNode* node){
 	int line = node->line;
 	char** cmdList;
 	pid_t pid;
-
+	int status;
+	
 	//not a target 
 	if(line == -1){
 		return;
 	}
-
+	 
 	else{
-		while((cmdList = parseCommandLine(node->line) != NULL)){
+		cmdList = parseCommandLine(node->line);
+		while(cmdList != NULL){
 			pid = fork();
 
 			if(pid < 0){
@@ -77,10 +79,9 @@ void execNode(TreeNode* node){
                 	else if(pid == 0){
                         	pid = getpid();
                         	execvp(cmdList[0], cmdList);
-				wait(&status);
                 	}
 			else{
-				wait(pid, &status);
+				wait(&status);
 			}	
 		}
 		
