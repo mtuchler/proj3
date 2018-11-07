@@ -31,7 +31,6 @@ struct TreeNode {
         TreeNode **children;
 	int numchild;
         int checked;
-	int modtime;
 };
 
 // Declaring functions

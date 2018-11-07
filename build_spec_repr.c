@@ -148,21 +148,6 @@ void DFS(TreeNode* node, TreeNode** order) {
 	return;
 }
 
-void getModTime(TreeNode* node) {
-	
-	// check if node represents a file in current directory
-	if (access(node->name, F_OK) != 0) {
-		// not a file
-		// ignore it i guess, that's ok
-	}
-
-	
-	
-
-	
-	return;
-}
-
 void printTree(TreeNode** graph) {
 	int i = 0;
 	while (i < MAX_NODES && graph[i] != NULL) {

@@ -44,7 +44,23 @@ int connectNodes(TreeNode** graph) {
 				// add dependencies
 				parentChild(graph[i], nodeCheck);
 			}
-			// DO WE CHECK IF ITS A VIABLE FILE????
+			// otherwise, it's a dependency but not a target
+			// if it's a file, create a node for it
+			else {
+				//filecheck
+				//access returns 0 when it succeeds
+				if (access(dList[j], F_OK) != 0) {
+					//create node
+					if (numNodes < MAX_NODES) {
+						numNodes++;
+						graph[numNodes] = nodeInit(dList[j], -1);
+						parentChild(graph[i], graph[numNodes]);
+					}
+					else {
+						printf("Error: Too many nodes.\n");
+					}
+				}
+			}
 			j++;
 		}
 	}
