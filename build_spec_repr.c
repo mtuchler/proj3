@@ -66,7 +66,7 @@ TreeNode** getNodes() {
 	char* targetBuff = malloc(BUFF_SIZE);
 
 	// Pointer to the open file
-	FILE *f = openFile("Makefile");
+	FILE *f = openFile();
 	// Loop thru the file
 	while (lineNum > 0) {
 		// parseTargets finds the next line with a viable
