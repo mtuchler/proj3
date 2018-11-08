@@ -25,42 +25,12 @@ int main(int argc, const char* argv[]) {
 	TreeNode* root = getRoot(argc, argv, graph);
 	connectNodes(graph);
 	TreeNode** order = buildOrder(root, graph);
-/*
-	printf("\n");
+
+/*	printf("\n");
 	printTree(graph);
-	printf("\n");
+	printf("\n"); 
 	printTree(order);
 */
-
 	execLoop(order);
-}
 
-void testParseCommandLine() {
-	char** dList;
-        int lineNum[1];
-        lineNum[0] = 2;
-
-        dList = parseCommandLine(lineNum);
-
-        if (dList == NULL) {
-                printf("null array\n");
-        }
-        else {
-                //print dList
-                for (int i = 0; i < CMD_SIZE; i++) {
-                        if (dList[i] == NULL) {
-                                break;
-                        }
-                        printf("%s\n", dList[i]);
-                }
-        }
-}
-
-void testGetNodes() {
-
-	TreeNode** graph = getNodes();
-	connectNodes(graph);
-	printTree(graph);
-
-	return;
 }

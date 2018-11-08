@@ -19,7 +19,7 @@ int lineNum = 0;
 
 //opens the file and error handles
 FILE* openFile() {
-	FILE* file  = fopen("Rakefile", "r");
+	FILE* file  = fopen("proj3/basic_cycle_testcase/makefile", "r");
 
 	if(file == NULL) {
 		file = fopen("Makefile", "r");
@@ -55,20 +55,30 @@ int parseTargets(char* name, FILE* file){
 	while(!feof(file)){
 		char c;
 		// read in line
-		for (int i = 0; i < BUFF_SIZE; i++) {
+		int i = 0;
+		int cont = 1;
+		while (cont) {
 			c = fgetc(file);
-			if (c != '\n') {
+			if (c == '\n') {
+				line[i] = '\0';
+				cont = 0;
+			}
+			else if (feof(file)) {
+				if (i == 0) {
+					return 0;
+				}
+				line[i] = '\0';
+				cont = 0;
+			}
+			else if (i == BUFF_SIZE) {
+				printf("%i: Line too long error\n", lineNum);
+				exit(1);
+			}
+			// no end conditions: read that letter!
+			if (cont) {
 				line[i] = c;
 			}
-			else {
-				// append end-of-line char and leave loop
-				line[i] = '\0';
-				i = BUFF_SIZE;
-			}
-		}
-		// second EOF check -- jank
-		if (feof(file)) {
-			return 0;
+			i++;
 		}
 
 		// ignore lines that start with \n, \t, or #
@@ -116,7 +126,11 @@ char** parseDependencies(int lineNum){
 
 	//throw out lines until you get to lineNum
 	for(int d = 1; d < lineNum; d++){
-		while(fgetc(file) != '\n') {}
+		while(fgetc(file) != '\n') {
+			if (feof(file)) {
+				return NULL;
+			}
+		}
 	}
 	
 	// read into line
@@ -200,7 +214,11 @@ char** parseCommandLine(int* lineNum){
 
         //read each lineNum and throws out the newline
         for(int d = 1; d < *lineNum; d++){
-                while(fgetc(file) != '\n') {}
+                while(fgetc(file) != '\n') {
+			if (feof(file)) {
+				return NULL;
+			}
+		}
         }
 
 	// check if viable command line
@@ -213,7 +231,6 @@ char** parseCommandLine(int* lineNum){
 		// Ignore a line that starts with a newline or #
 		if (c == '\n' || c == '#') {
 			(*lineNum)++;
-			printf("diving deeper\n");
 			return parseCommandLine(lineNum);
 		}
 		else {
@@ -228,24 +245,34 @@ char** parseCommandLine(int* lineNum){
 	}
 
 	// read in line
-	for(int e = 0; e < BUFF_SIZE; e++){
-		if (!feof(file) && c != '\n') {
-                	line[e] = c;
+	int b = 0;
+	int cont = 1;
+	while (cont) {
+		c = fgetc(file);
+		if (c == '\n') {
+			line[b] = '\0';
+			cont = 0;
 		}
 		else if (feof(file)) {
-			return NULL;
+			if (b == 0) {
+				return NULL;
+			}
+			line[b] = '\0';
+			cont = 0;
 		}
-		else {
-			// you've read to the end of the line
-			line[e] = '\0';
-			e = BUFF_SIZE;
+		else if (b == BUFF_SIZE) {
+			printf("%i: Line too long error\n", *lineNum);
+			exit(1);
 		}
-		c = fgetc(file);
-        }
+		// no stop condition, read the character!
+		if (cont) {
+			line[b] = c;
+		}
+		b++;
+	}
 
 	// index of the line from Makefile
-	// starts at 1 because line[0] = '\t'
-	int lineIndex = 1;
+	int lineIndex = 0;
 	// index of the command line argument
 	int listIndex = 0;
 	// index of next character within command line argument
@@ -272,9 +299,21 @@ char** parseCommandLine(int* lineNum){
                 }
         }
 	// append a null pointer after last arg
-	array[listIndex][arggIndex + 1] = '\0';
-	array[listIndex + 1] = NULL;
+	if (arggIndex != 0) {
+		array[listIndex][arggIndex] = '\0';
+		listIndex++;
+	}
+	array[listIndex] = NULL;
 
 	closeFile(file);
+
+/*	// print array
+	printf("PRINTING CMDLINE\n");
+	int k = 0;
+	while (array[k] != NULL) {
+		printf("%s ", array[k]);
+		k++;
+	}
+	printf("\n"); */
 	return array;
 }

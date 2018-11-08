@@ -40,7 +40,7 @@ void execLoop(TreeNode** order) {
 
 		// great! you're good to go!
 		if (execute) {
-			printf("execute %s\n", order[i]->name);
+			//printf("execute %s\n", order[i]->name);
 			execNode(order[i]);
 		}
 		i++;
@@ -55,6 +55,7 @@ void execLoop(TreeNode** order) {
 void execNode(TreeNode* node) {
 
 	int* line = &(node->line);
+	(*line)++;
 	char** cmdList;
 	pid_t pid;
 	int status;
@@ -69,6 +70,7 @@ void execNode(TreeNode* node) {
 		}
                	else if(pid == 0){
 			execvp(cmdList[0], cmdList);
+			exit(0);
 		}
 		else{
 			wait(&status);
