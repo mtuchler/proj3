@@ -15,7 +15,6 @@
 #include "build_spec_graph.h"
 
 // parses Makefile for dependencies, and sets parents/children
-// TODO does this do it for one node or all of them?
 int connectNodes(TreeNode** graph) {
 	TreeNode* currNode = graph[0];
 	TreeNode* nodeCheck;
@@ -24,23 +23,37 @@ int connectNodes(TreeNode** graph) {
 	char** dList;
 
 	// find the number of nodes
-	while(currNode != NULL && numNodes < MAX_NODES) {
-		currNode = graph[numNodes];
+	while(graph[numNodes] != NULL && numNodes < MAX_NODES) {
 		numNodes++;
 	}
+
+	// allows us to add new nodes to the graph
+	int nextNodeIndex = numNodes;
 
 	// loop through nodes to get dependencies
 	// if successful, graph[i] is parent of graph[k]
 	for (int i = 0; i < numNodes; i++) {
+		if (graph[i] == NULL) {
+			printf("%i = numNodes\n", numNodes);
+			return 0;
+		}
 		currNode = graph[i];
+		printf("----TARGET: %s----\n", currNode->name);
 		dList = parseDependencies(currNode->line);
+		// Null handling for dList
+		if (dList == NULL) {
+			return 0;
+		}
+
 		// loop through dependencies to see if they are nodes
 		int j = 0;
 		while (dList[j] != NULL) {
 			// search for a node with that name
 			nodeCheck = find(dList[j],graph);
+			printf("%s searched\n", dList[j]);
 			// if a node is found...
 			if (nodeCheck != NULL) {
+				printf("\tsearch success\n");
 				// add dependencies
 				parentChild(graph[i], nodeCheck);
 			}
@@ -51,10 +64,10 @@ int connectNodes(TreeNode** graph) {
 				//access returns 0 when it succeeds
 				if (access(dList[j], F_OK) != 0) {
 					//create node
-					if (numNodes < MAX_NODES) {
-						numNodes++;
-						graph[numNodes] = nodeInit(dList[j], -1);
-						parentChild(graph[i], graph[numNodes]);
+					if (nextNodeIndex < MAX_NODES) {
+						graph[nextNodeIndex] = nodeInit(dList[j], -1);
+						parentChild(graph[i], graph[nextNodeIndex]);
+						nextNodeIndex++;
 					}
 					else {
 						printf("Error: Too many nodes.\n");

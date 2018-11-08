@@ -14,33 +14,46 @@
 
 #include <stdio.h>
 #include <unistd.h>
-#include "build_spec_repr.h"
+#include "build_spec_graph.h"
+#include "proc_creation_prog_exe.h"
+
+void testParseCommandLine();
+void testGetNodes();
 
 int main() {
 	printf("start\n");
-	FILE* f = fopen("Makefile", "r");
 
-	char** dList;
-	int lineNum[1];
-	lineNum[0] = 9;
+	testGetNodes();
 
-	dList = parseCommandLine(lineNum);
-
-	printf("wth?\n");
-
-	if (dList == NULL) {
-		printf("null array\n");
-	}
-	else {
-		//print dList
-		for (int i = 0; i < CMD_SIZE; i++) {
-			if (dList[i] == NULL) {
-				break;
-			}
-			printf("%s\n", dList[i]);
-		}
-	}
-
-	fclose(f);
 	printf("end\n");
+}
+
+void testParseCommandLine() {
+	char** dList;
+        int lineNum[1];
+        lineNum[0] = 2;
+
+        dList = parseCommandLine(lineNum);
+
+        if (dList == NULL) {
+                printf("null array\n");
+        }
+        else {
+                //print dList
+                for (int i = 0; i < CMD_SIZE; i++) {
+                        if (dList[i] == NULL) {
+                                break;
+                        }
+                        printf("%s\n", dList[i]);
+                }
+        }
+}
+
+void testGetNodes() {
+
+	TreeNode** graph = getNodes();
+	connectNodes(graph);
+	printTree(graph);
+
+	return;
 }

@@ -19,7 +19,7 @@ int lineNum = 0;
 
 //opens the file and error handles
 FILE* openFile() {
-	FILE* file  = fopen("makefile", "r");
+	FILE* file  = fopen("Rakefile", "r");
 
 	if(file == NULL) {
 		file = fopen("Makefile", "r");
@@ -128,13 +128,14 @@ char** parseDependencies(int lineNum){
 			e = BUFF_SIZE;
 		}
 	}
-
-	printf("%s\n", line);
+	// EOF check
+	if (feof(file)) {
+		return NULL;
+	}
 
 	// index of line read from Makefile
 	int lineIndex = 0;
 	// index of dependant number in dList (first array index)
-	// set as -1 to throw out the name of the target and the ':'
 	int listIndex = 0;
 	// index of dependant string in dList (second array index)
 	int deppIndex = 0;
@@ -177,10 +178,15 @@ char** parseDependencies(int lineNum){
 		}
 	}
 	// stuff once you've found the \0:
-	dList[listIndex][deppIndex + 1] = '\0';
-	dList[listIndex + 1] = NULL;
+	if (deppIndex != 0) {
+		dList[listIndex][deppIndex] = '\0';
+		listIndex++;
+	}
+	dList[listIndex] = NULL;
 	
 	closeFile(file);
+
+	printf("%i: parsed\n", lineNum);
 
 	return dList;
 }
@@ -264,6 +270,7 @@ char** parseCommandLine(int* lineNum){
                         // ...look at next char and next argument
                         listIndex++;
                         arggIndex = 0;
+			lineIndex++;
                 }
         }
 	// append a null pointer after last arg

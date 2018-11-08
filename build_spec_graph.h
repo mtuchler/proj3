@@ -21,4 +21,7 @@
 #include "build_spec_repr.h"
 #include "text_parsing.h"
 
+int connectNodes(TreeNode** graph);
+TreeNode** buildOrder(TreeNode** graph);
+
 #endif

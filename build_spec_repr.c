@@ -152,7 +152,10 @@ void DFS(TreeNode* node, TreeNode** order) {
 void printTree(TreeNode** graph) {
 	int i = 0;
 	while (i < MAX_NODES && graph[i] != NULL) {
-		printf("%i: %s\n", i, graph[i]->name);
+		printf("@%i:\t%s\n", graph[i]->line, graph[i]->name);
+		for (int j = 0; j < graph[i]->numchild; j++) {
+			printf("\t%s\n", graph[i]->children[j]->name);
+		}
 		i++;
 	}
 	return;
