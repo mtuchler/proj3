@@ -17,21 +17,20 @@
 #include "build_spec_repr.h"
 
 int main() {
-
 	printf("start\n");
-
 	FILE* f = fopen("Makefile", "r");
 
-	char buff[BUFF_SIZE];
-	
-	int i = parseTargets(buff, f);
+	char** dList;
+	dList = parseDependencies(5);
 
-	while (i > 0) {
-		printf("%i: target = %s\n", i, buff);
-		i = parseTargets(buff, f);
+	//print dList
+	for (int i = 0; i < MAX_NODES; i++) {
+		if (dList[i] == NULL) {
+			break;
+		}
+		printf("%s\n", dList[i]);
 	}
 
 	fclose(f);
-
 	printf("end\n");
 }

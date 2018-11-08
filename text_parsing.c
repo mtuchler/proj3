@@ -102,34 +102,70 @@ char** parseDependencies(int lineNum){
 	char line[BUFF_SIZE];
 
 	char** dList = malloc(sizeof(char*)*MAX_NODES);
-	char c = fgetc(file);
-	char* token1;
+//	char* token1;
 
 	for (int n = 0; n < MAX_NODES; n++) {
 		dList[n] = malloc(BUFF_SIZE);
 	}
 
-	//read each lineNum and find the dependencies
+	//throw out lines until you get to lineNum
 	for(int d = 1; d < lineNum; d++){
-		while(c != '\n') {
-			c = fgetc(file);
-		}
+		while(fgetc(file) != '\n') {}
 	}
 	
 	// read into line
 	for(int e = 0; e < BUFF_SIZE; e++){
 		line[e] = fgetc(file);
+		if (line[e] == '\n') {
+			// append \0 and leave loop
+			line[e] = '\0';
+			e = BUFF_SIZE;
+		}
 	}
 
-	int index = 0;
-	char delim = ' ';
-	strtok(line, &delim);
-	token1 = strtok(line, &delim);
-	while(token1 != NULL && index < MAX_NODES){
-		strcpy(dList[index],token1);
-		index++;
-		token1 = strtok(line, &delim);
+	printf("%s\n", line);
+
+	// index of line read from Makefile
+	int lineIndex = 0;
+	// index of dependant number in dList (first array index)
+	// set as -1 to throw out the name of the target and the ':'
+	int listIndex = -1;
+	// index of dependant string in dList (second array index)
+	int deppIndex = 0;
+
+	// read char by char until you get to a string terminator
+	while (line[lineIndex] != '\0' && listIndex < MAX_NODES) {
+		// if you find a non-space, non-terminating char...
+		if (line[lineIndex] != ' ') {
+			// ...and it isn't the first one...
+			if (listIndex >= 0) {
+				// ...set char in dList and increment
+				dList[listIndex][deppIndex] = line[lineIndex];
+				deppIndex++;
+			}
+			// ...look at next char
+			lineIndex++;
+		}
+		// if you find a space char...
+		else {
+			// ...and it isn't the first one...
+			if (listIndex >= 0) {
+				// ...append a string terminator
+				dList[listIndex][deppIndex] = '\0';
+			}
+			// ...look at next char and next dependant
+			listIndex++;
+			deppIndex = 0;
+			// while loop ignores multiple consecutive spaces
+			// not sure if it's necessary but it gives me peace of mind
+			while (line[lineIndex] == ' ') {
+				lineIndex++;
+			}
+		}
 	}
+	// stuff once you've found the \0:
+	dList[listIndex][deppIndex + 1] = '\0';
+	dList[listIndex + 1] = NULL;
 	
 	closeFile(file);
 
