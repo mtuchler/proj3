@@ -85,22 +85,42 @@ int connectNodes(TreeNode** graph) {
 // also checks for cycles, which are bad
 // input:	the graph, i.e. list of node*s
 // return:	list of node*s in build/execution order
-TreeNode** buildOrder(TreeNode** graph) {
-	// 1) determine the root node (from cmdline)
-	char* cmdline = NULL;//TODO parseRoot();
-	TreeNode* root = find(cmdline, graph);
+TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 	// handle NULL input
 	if (root == NULL) {
 		printf("Invalid make argument: %s\n", cmdline);
 		exit(1);
 	}
-	// 2) initialize new buildOrder array
+	//  initialize new buildOrder array
 	TreeNode** order = malloc(sizeof(TreeNode*)*MAX_NODES);
 	for (int i = 0; i < MAX_NODES; i++) {
 		order[i] = NULL;
 	}
-	// 3) call DFS on root node
+	//  call DFS on root node
 	DFS(root, order);
 
 	return order;
+}
+
+//
+TreeNode* getRoot(int argc, char* argv[], TreeNode** graph) {
+	// default, NULL case
+	if (argc == 1) {
+		return NULL;
+	}
+	// check for proper input
+	else if (argc == 2) {
+		TreeNode* root = find(argv[1], graph);
+		if (root == NULL) {
+			printf("Error: input is not a valid argument\n");
+			exit(1);
+		}
+		// not null, found a fitting root
+		return root;
+	}
+	else {
+		printf("Error: improper input format - too many arguments\n");
+		exit(1);
+	}
+	return NULL;
 }
