@@ -19,7 +19,7 @@ int lineNum = 0;
 
 //opens the file and error handles
 FILE* openFile() {
-	FILE* file  = fopen("proj3/basic_cycle_testcase/makefile", "r");
+	FILE* file  = fopen("makefile", "r");
 
 	if(file == NULL) {
 		file = fopen("Makefile", "r");

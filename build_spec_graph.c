@@ -113,7 +113,7 @@ void DFS(TreeNode* node, TreeNode** order) {
 
         for (int i = 0; i < node->numchild; i++) {
                 // clarifying print:
-                printf("p: %s\tc: %s\n", node->name, node->children[i]->name);
+                // printf("p: %s\tc: %s\n", node->name, node->children[i]->name);
 
 		// for each unchecked child
                 if (!node->children[i]->checked) {
