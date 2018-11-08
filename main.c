@@ -21,14 +21,24 @@ int main() {
 	FILE* f = fopen("Makefile", "r");
 
 	char** dList;
-	dList = parseDependencies(5);
+	int lineNum[1];
+	lineNum[0] = 9;
 
-	//print dList
-	for (int i = 0; i < MAX_NODES; i++) {
-		if (dList[i] == NULL) {
-			break;
+	dList = parseCommandLine(lineNum);
+
+	printf("wth?\n");
+
+	if (dList == NULL) {
+		printf("null array\n");
+	}
+	else {
+		//print dList
+		for (int i = 0; i < CMD_SIZE; i++) {
+			if (dList[i] == NULL) {
+				break;
+			}
+			printf("%s\n", dList[i]);
 		}
-		printf("%s\n", dList[i]);
 	}
 
 	fclose(f);

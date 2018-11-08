@@ -67,7 +67,7 @@ void execNode(TreeNode* node){
 	}
 	 
 	else{
-		cmdList = parseCommandLine(node->line);
+		cmdList = parseCommandLine(&(node->line));
 		while(cmdList != NULL){
 			pid = fork();
 

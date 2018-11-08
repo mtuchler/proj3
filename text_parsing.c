@@ -81,6 +81,13 @@ int parseTargets(char* name, FILE* file){
 			}
 			else{
 				strcpy(name,token);
+				// whitespace handling
+				for (int j = 0; j < BUFF_SIZE; j++) {
+					if (name[j] == ' ') {
+						name[j] = '\0';
+						return lineNum++;
+					}
+				}
 				return lineNum++;
 			}
 		}
@@ -102,7 +109,6 @@ char** parseDependencies(int lineNum){
 	char line[BUFF_SIZE];
 
 	char** dList = malloc(sizeof(char*)*MAX_NODES);
-//	char* token1;
 
 	for (int n = 0; n < MAX_NODES; n++) {
 		dList[n] = malloc(BUFF_SIZE);
@@ -129,35 +135,42 @@ char** parseDependencies(int lineNum){
 	int lineIndex = 0;
 	// index of dependant number in dList (first array index)
 	// set as -1 to throw out the name of the target and the ':'
-	int listIndex = -1;
+	int listIndex = 0;
 	// index of dependant string in dList (second array index)
 	int deppIndex = 0;
 
+	// read until the colon to get the first dependancy
+	while (line[lineIndex] != ':') {
+		lineIndex++;
+	}
+	lineIndex++;
+	// throw out all subsequent spaces
+	while (line[lineIndex] == ' ') {
+		lineIndex++;
+	}
+
 	// read char by char until you get to a string terminator
+	// the remainder of the line is a series of
+	// 	- chars making up the dependants
+	// 	- followed by some non-zero number of spaces
+	// 	- all ending in a terminator
 	while (line[lineIndex] != '\0' && listIndex < MAX_NODES) {
 		// if you find a non-space, non-terminating char...
 		if (line[lineIndex] != ' ') {
-			// ...and it isn't the first one...
-			if (listIndex >= 0) {
-				// ...set char in dList and increment
-				dList[listIndex][deppIndex] = line[lineIndex];
-				deppIndex++;
-			}
+			// ...set char in dList and increment
+			dList[listIndex][deppIndex] = line[lineIndex];
+			deppIndex++;
 			// ...look at next char
 			lineIndex++;
 		}
 		// if you find a space char...
 		else {
-			// ...and it isn't the first one...
-			if (listIndex >= 0) {
-				// ...append a string terminator
-				dList[listIndex][deppIndex] = '\0';
-			}
+			// append a null terminator
+			dList[listIndex][deppIndex] = '\0';
 			// ...look at next char and next dependant
 			listIndex++;
 			deppIndex = 0;
 			// while loop ignores multiple consecutive spaces
-			// not sure if it's necessary but it gives me peace of mind
 			while (line[lineIndex] == ' ') {
 				lineIndex++;
 			}
@@ -176,38 +189,38 @@ char** parseDependencies(int lineNum){
 //reads up to the line if starts with a tab character
 //return an array of strings that are passed into execvp() 
 //returns NULL on end of cmd lines or EOF
-char** parseCommandLine(int lineNum){
+char** parseCommandLine(int* lineNum){
 	
 	FILE* file = openFile();
 	char line[BUFF_SIZE];
 
-	// initialize/malloc array and some variables	
-	char** array = malloc(sizeof(char*)*CMD_SIZE);
-	for (int n = 0; n < CMD_SIZE; n++) {
-                array[n] = malloc(CMD_SIZE);
-        }
-	char c = fgetc(file);
-	char* token2;
-
-
         //read each lineNum and throws out the newline
-        for(int d = 1; d < lineNum; d++){
-                while(c != '\n') {
-                        c = fgetc(file);
-                }
+        for(int d = 1; d < *lineNum; d++){
+                while(fgetc(file) != '\n') {}
         }
 
 	// check if viable command line
-	c = fgetc(file);
+	char c = fgetc(file);
+	// quick EOF check
+	if (feof(file)) {
+		return NULL;
+	}
 	if (c != '\t') {
-		// TODO Accept a line that starts with a newline
-		if (c == '\n') {
-			array[0] = "";
-			return array;
+		// Ignore a line that starts with a newline or #
+		if (c == '\n' || c == '#') {
+			(*lineNum)++;
+			printf("diving deeper\n");
+			return parseCommandLine(lineNum);
 		}
 		else {
 			return NULL;
 		}
+	}
+
+	// initialize/malloc array and some variables
+	char** array = malloc(sizeof(char*)*CMD_SIZE);
+	for (int n = 0; n < CMD_SIZE; n++) {
+		array[n] = malloc(CMD_SIZE);
 	}
 
 	// read in line
@@ -215,25 +228,47 @@ char** parseCommandLine(int lineNum){
 		if (!feof(file) && c != '\n') {
                 	line[e] = c;
 		}
-		else if (feof(file) && c != '\n') {
+		else if (feof(file)) {
 			return NULL;
 		}
 		else {
 			// you've read to the end of the line
+			line[e] = '\0';
 			e = BUFF_SIZE;
 		}
 		c = fgetc(file);
         }
 
-	int index = 0;
-	char delim = ' ';
-        strtok(line, "\t");
-        token2 = strtok(line, &delim);
-        while(token2 != NULL && index < CMD_SIZE){
-                strcpy(array[index],token2);
-                index++;
-                token2 = strtok(line, &delim);
+	// index of the line from Makefile
+	// starts at 1 because line[0] = '\t'
+	int lineIndex = 1;
+	// index of the command line argument
+	int listIndex = 0;
+	// index of next character within command line argument
+	int arggIndex = 0;
+
+	// read into the array we return
+	while (line[lineIndex] != '\0' && listIndex < MAX_NODES) {
+                // if you find a non-space char...
+                if (line[lineIndex] != ' ') {
+                        // ...set char in array and increment
+                        array[listIndex][arggIndex] = line[lineIndex];
+                        arggIndex++;
+                        // ...look at next char
+                        lineIndex++;
+                }
+                // if you find a space char...
+                else {
+                        // append a null terminator
+                        array[listIndex][arggIndex] = '\0';
+                        // ...look at next char and next argument
+                        listIndex++;
+                        arggIndex = 0;
+                }
         }
+	// append a null pointer after last arg
+	array[listIndex][arggIndex + 1] = '\0';
+	array[listIndex + 1] = NULL;
 
 	closeFile(file);
 	return array;
