@@ -15,8 +15,7 @@
 
 #include "text_parsing.h"
 
-char line[BUFF_SIZE];
-int lineNum;
+int lineNum = 0;
 
 //opens the file and error handles
 FILE* openFile() {
@@ -35,6 +34,7 @@ FILE* openFile() {
 
 //method to close the file once it has been openend
 void closeFile(FILE* file) {
+	lineNum = 0;
         fclose(file);
         return;
 }
@@ -45,24 +45,49 @@ void closeFile(FILE* file) {
 int parseTargets(char* name, FILE* file){
 	
 	char* token;
+	char line[BUFF_SIZE];
 	char delim = ':';
+	// only initialize lineNum if you're first to do it
+	if (lineNum == 0) {
+		lineNum = 1;
+	}
 
 	while(!feof(file)){
-		fscanf(file, "%s", line);
+		char c;
+		// read in line
+		for (int i = 0; i < BUFF_SIZE; i++) {
+			c = fgetc(file);
+			if (c != '\n') {
+				line[i] = c;
+			}
+			else {
+				// append end-of-line char and leave loop
+				line[i] = '\0';
+				i = BUFF_SIZE;
+			}
+		}
+		// second EOF check -- jank
+		if (feof(file)) {
+			return 0;
+		}
 
+		// ignore lines that start with \n, \t, or #
 		//read til you encounter a colon character
-		if(line[0] != '\n' && line[0] != '\t'){	
+		if (line[0] != '\0' && line[0] != '\t' && line[0] != '#') {	
 			token = strtok(line, &delim);
+			if (token == NULL){
+				printf("%d: incorrect target\n", lineNum);
+				exit(1);
+			}
+			else{
+				strcpy(name,token);
+				return lineNum++;
+			}
 		}
-
-		if (token == NULL){
-			printf("%d: incorrect target", lineNum);
-			exit(1);								}
-
-		else{
-			strcpy(name,token);
-			return lineNum;
+		else {
+			//line starts with a \n or \t or #: ignore it
 		}
+		lineNum++;
 	}		
 	return 0;
 }
@@ -74,6 +99,7 @@ int parseTargets(char* name, FILE* file){
 char** parseDependencies(int lineNum){
 	
 	FILE* file = openFile();
+	char line[BUFF_SIZE];
 
 	char** dList = malloc(sizeof(char*)*MAX_NODES);
 	char c = fgetc(file);
@@ -117,6 +143,7 @@ char** parseDependencies(int lineNum){
 char** parseCommandLine(int lineNum){
 	
 	FILE* file = openFile();
+	char line[BUFF_SIZE];
 
 	// initialize/malloc array and some variables	
 	char** array = malloc(sizeof(char*)*CMD_SIZE);

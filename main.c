@@ -17,5 +17,21 @@
 #include "build_spec_repr.h"
 
 int main() {
+
+	printf("start\n");
+
+	FILE* f = fopen("Makefile", "r");
+
+	char buff[BUFF_SIZE];
 	
+	int i = parseTargets(buff, f);
+
+	while (i > 0) {
+		printf("%i: target = %s\n", i, buff);
+		i = parseTargets(buff, f);
+	}
+
+	fclose(f);
+
+	printf("end\n");
 }

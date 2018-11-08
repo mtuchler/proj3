@@ -67,18 +67,20 @@ TreeNode** getNodes() {
 
 	// Pointer to the open file
 	FILE *f = openFile();
+	// first parseTargets call
+	lineNum = parseTargets(targetBuff, f);
 	// Loop thru the file
 	while (lineNum > 0) {
 		// parseTargets finds the next line with a viable
 		// target and copies it into the input buffer. Then
 		// it returns the line number it found it on
-		lineNum = parseTargets(targetBuff, f);
 		graph[nodeIndex] = nodeInit(targetBuff, lineNum);
 		nodeIndex++;
 		if (nodeIndex == MAX_NODES) {
 			printf("Error: Makefile too long\n");
 			exit(1);
 		}
+		lineNum = parseTargets(targetBuff, f);
 	}
 	// Close the file
 	closeFile(f);
