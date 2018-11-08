@@ -3,6 +3,8 @@
 
 // Let's pretend queue functions go here
 
+// butts
+
 char dequeue_char();
 
 #endif

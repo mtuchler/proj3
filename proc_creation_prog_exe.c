@@ -21,29 +21,28 @@
 // you only execute a node if it's a target (i.e. has commands)
 // AND, if its a file, if it's out of date.
 void execLoop(TreeNode** order) {
-	int execute = 0;
-
+	int execute = 1;
 	int i = 0;
 	while (order[i] != NULL) {
 		// check if it's a target
-		// if it has a line number in the makefile, yes
-		if (order[i]->line > 0) {
-			execute = 1;
+		// if its line number = -1, don't exec
+		if (order[i]->line < 0) {
+			execute = 0;
 		}
 		// check if it's a file
 		if (access(order[i]->name, F_OK) == 0) {
-			// if so, check if it's out of date
-			if (timeCheck(order[i])) {
-				execute = 1;
+			// if so, check if it's up to date
+			if (!timeCheck(order[i])) {
+				execute = 0;
 			}
 		}
-
 		// great! you're good to go!
 		if (execute) {
 			//printf("execute %s\n", order[i]->name);
 			execNode(order[i]);
 		}
 		i++;
+		execute = 1;
 	}
 	return;
 }
@@ -69,7 +68,9 @@ void execNode(TreeNode* node) {
 			exit(1);
 		}
                	else if(pid == 0){
-			execvp(cmdList[0], cmdList);
+			if (execvp(cmdList[0], cmdList) == -1) {
+				printf("%i: Invalid command", node->line);
+			}
 			exit(0);
 		}
 		else{
@@ -84,12 +85,12 @@ void execNode(TreeNode* node) {
 
 static time_t getFileModifiedTime(const char *path)
 {
-    struct stat attr;
-    if (stat(path, &attr) == 0)
-    {
-        return attr.st_mtime;
-    }
-    return 0;
+	struct stat attr;
+	if (stat(path, &attr) == 0)
+	{
+		return attr.st_mtime;
+	}
+	return 0;
 }
 
 // method used to determine if the file has been updated since
@@ -106,7 +107,7 @@ int timeCheck(TreeNode* node) {
 		t_child = getFileModifiedTime(node->children[i]->name);
 		// if child was modified MORE SECONDS after the parent,
 		// then parent needs to be recompiled.
-		if( difftime(t_node, t_child) <= 0 ) {
+		if( difftime(t_node, t_child) <= 0 && t_child != 0) {
 			return 1;
 		}
 	}

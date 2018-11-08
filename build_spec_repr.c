@@ -132,7 +132,7 @@ void parentChild(TreeNode* parent, TreeNode* child) {
 void printTree(TreeNode** graph) {
 	int i = 0;
 	while (i < MAX_NODES && graph[i] != NULL) {
-		printf("@%i:\t%s\n", graph[i]->line, graph[i]->name);
+		printf("@%i:\t-%s-\t%i\n", graph[i]->line, graph[i]->name, graph[i]->numchild);
 		if (graph[i]->numchild > 0) {
 			printf("\t-");
 		}

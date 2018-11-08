@@ -62,7 +62,7 @@ int connectNodes(TreeNode** graph) {
 			else {
 				//filecheck
 				//access returns 0 when it succeeds
-				if (access(dList[j], F_OK) != 0) {
+				if (access(dList[j], F_OK) == 0) {
 					//create node
 					if (nextNodeIndex < MAX_NODES) {
 						graph[nextNodeIndex] = nodeInit(dList[j], -1);
@@ -107,24 +107,22 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 // inputs:	the node to DFS on, and the array to add stuff to build order
 // return:	nothing, but it does exit if it detects a cycle
 void DFS(TreeNode* node, TreeNode** order) {
-        // finds if the node is in a loop
-        node->checked = 1;
+	// finds if the node is in a loop
+	if (node->recur == 1) {
+		printf("Error: dependency loop detected in makefile\n");
+		exit(0);
+	}
+	if (node->checked == 1) {
+		return;
+	}
+	node->checked = 1;
 	node->recur = 1;
 
         for (int i = 0; i < node->numchild; i++) {
-                // clarifying print:
-                // printf("p: %s\tc: %s\n", node->name, node->children[i]->name);
-
 		// for each unchecked child
-                if (!node->children[i]->checked) {
-			// recursive call
+		// recursive call
+		if (node->children[i]->line > 0) {
 			DFS(node->children[i], order);
-                }
-		// if it has been checked and its on the recursive stack
-		else if (node->children[i]->recur) {
-			// THATS A CYCLE
-			printf("Error: dependency loop found in makefile\n");
-			exit(1);
 		}
         }
 	// once you're here, you havent found a cycle

@@ -2,5 +2,6 @@
 
 char dequeue_char()
 {
+	// gloop
     return 'a';
 }
