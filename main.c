@@ -20,12 +20,17 @@
 void testParseCommandLine();
 void testGetNodes();
 
-int main() {
-	printf("start\n");
+int main(int argc, const char* argv[]) {
+	TreeNode** graph = getNodes();
+	TreeNode* root = getRoot(argc, argv, graph);
+	connectNodes(graph);
+	TreeNode** order = buildOrder(root, graph);
 
-	testGetNodes();
+	printf("\n");
+	printTree(graph);
+	printf("\n");
+	printTree(order);
 
-	printf("end\n");
 }
 
 void testParseCommandLine() {

@@ -186,8 +186,6 @@ char** parseDependencies(int lineNum){
 	
 	closeFile(file);
 
-	printf("%i: parsed\n", lineNum);
-
 	return dList;
 }
 

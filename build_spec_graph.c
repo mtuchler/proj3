@@ -86,10 +86,10 @@ int connectNodes(TreeNode** graph) {
 // input:	the graph, i.e. list of node*s
 // return:	list of node*s in build/execution order
 TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
-	// handle NULL input
+	// handle NULL input - default case
 	if (root == NULL) {
-		printf("Invalid make argument: %s\n", cmdline);
-		exit(1);
+		// root is the first target listed in Makefile
+		root = graph[0];
 	}
 	//  initialize new buildOrder array
 	TreeNode** order = malloc(sizeof(TreeNode*)*MAX_NODES);
@@ -103,14 +103,16 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 }
 
 //
-TreeNode* getRoot(int argc, char* argv[], TreeNode** graph) {
+TreeNode* getRoot(int argc, const char* argv[], TreeNode** graph) {
 	// default, NULL case
 	if (argc == 1) {
 		return NULL;
 	}
 	// check for proper input
 	else if (argc == 2) {
-		TreeNode* root = find(argv[1], graph);
+		char argument[BUFF_SIZE];
+		strcpy(argument, argv[1]);
+		TreeNode* root = find(argument, graph);
 		if (root == NULL) {
 			printf("Error: input is not a valid argument\n");
 			exit(1);

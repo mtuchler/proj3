@@ -22,6 +22,7 @@
 #include "text_parsing.h"
 
 int connectNodes(TreeNode** graph);
-TreeNode** buildOrder(TreeNode** graph);
+TreeNode** buildOrder(TreeNode* root, TreeNode** graph);
+TreeNode* getRoot(int argc, const char* argv[], TreeNode** graph);
 
 #endif
