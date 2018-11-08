@@ -24,4 +24,8 @@
 #include <time.h>
 #include "build_spec_graph.h"
 
+void execLoop(TreeNode** order);
+void execNode(TreeNode* node);
+int timeCheck(TreeNode* node);
+
 #endif

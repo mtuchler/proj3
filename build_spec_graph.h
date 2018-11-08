@@ -23,6 +23,7 @@
 
 int connectNodes(TreeNode** graph);
 TreeNode** buildOrder(TreeNode* root, TreeNode** graph);
+void DFS(TreeNode* node, TreeNode** order);
 TreeNode* getRoot(int argc, const char* argv[], TreeNode** graph);
 
 #endif

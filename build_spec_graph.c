@@ -34,11 +34,11 @@ int connectNodes(TreeNode** graph) {
 	// if successful, graph[i] is parent of graph[k]
 	for (int i = 0; i < numNodes; i++) {
 		if (graph[i] == NULL) {
-			printf("%i = numNodes\n", numNodes);
+			//printf("%i = numNodes\n", numNodes);
 			return 0;
 		}
 		currNode = graph[i];
-		printf("----TARGET: %s----\n", currNode->name);
+		//printf("----TARGET: %s----\n", currNode->name);
 		dList = parseDependencies(currNode->line);
 		// Null handling for dList
 		if (dList == NULL) {
@@ -50,10 +50,10 @@ int connectNodes(TreeNode** graph) {
 		while (dList[j] != NULL) {
 			// search for a node with that name
 			nodeCheck = find(dList[j],graph);
-			printf("%s searched\n", dList[j]);
+			//printf("%s searched\n", dList[j]);
 			// if a node is found...
 			if (nodeCheck != NULL) {
-				printf("\tsearch success\n");
+				//printf("\tsearch success\n");
 				// add dependencies
 				parentChild(graph[i], nodeCheck);
 			}
@@ -97,12 +97,53 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 		order[i] = NULL;
 	}
 	//  call DFS on root node
+	//  if it finds a cycle, it will throw the error and exit
 	DFS(root, order);
 
 	return order;
 }
 
-//
+// DFS function, that both builds order and detects cycles
+// inputs:	the node to DFS on, and the array to add stuff to build order
+// return:	nothing, but it does exit if it detects a cycle
+void DFS(TreeNode* node, TreeNode** order) {
+        // finds if the node is in a loop
+        node->checked = 1;
+	node->recur = 1;
+
+        for (int i = 0; i < node->numchild; i++) {
+                // clarifying print:
+                printf("p: %s\tc: %s\n", node->name, node->children[i]->name);
+
+		// for each unchecked child
+                if (!node->children[i]->checked) {
+			// recursive call
+			DFS(node->children[i], order);
+                }
+		// if it has been checked and its on the recursive stack
+		else if (node->children[i]->recur) {
+			// THATS A CYCLE
+			printf("Error: dependency loop found in makefile\n");
+			exit(1);
+		}
+        }
+	// once you're here, you havent found a cycle
+	node->recur = 0;
+
+        // once your done DFS'ing through node's children
+        // you're ready to add it to order
+        int j = 0;
+        while (j < MAX_NODES && order[j] != NULL) {
+                j++;
+        }
+        // settles on next index w/o a node
+        order[j] = node;
+
+        return;
+}
+
+// Taking the command line arguments, this method determines
+// the build mode (either default or from a certain target)
 TreeNode* getRoot(int argc, const char* argv[], TreeNode** graph) {
 	// default, NULL case
 	if (argc == 1) {

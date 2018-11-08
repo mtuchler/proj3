@@ -31,6 +31,7 @@ struct TreeNode {
         TreeNode **children;
 	int numchild;
         int checked;
+	int recur;
 };
 
 // Declaring functions
@@ -40,7 +41,6 @@ TreeNode** getNodes();
 void getModTime(TreeNode* node);
 TreeNode* find(char* name, TreeNode** graph);
 void parentChild(TreeNode* parent, TreeNode* child);
-void DFS(TreeNode* node, TreeNode** order);
 void printTree(TreeNode** graph);
 
 #endif

@@ -25,12 +25,14 @@ int main(int argc, const char* argv[]) {
 	TreeNode* root = getRoot(argc, argv, graph);
 	connectNodes(graph);
 	TreeNode** order = buildOrder(root, graph);
-
+/*
 	printf("\n");
 	printTree(graph);
 	printf("\n");
 	printTree(order);
+*/
 
+	execLoop(order);
 }
 
 void testParseCommandLine() {

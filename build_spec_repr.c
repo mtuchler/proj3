@@ -30,6 +30,7 @@ TreeNode* nodeInit(char *name, int line) {
         node->line = line;
         // for use with DFS
         node->checked = 0;
+	node->recur = 0;
         // parent and children remain NULL
 	// create space for children
 	node->children = malloc(sizeof(TreeNode*)*MAX_NODES);
@@ -64,6 +65,7 @@ TreeNode** getNodes() {
 	int nodeIndex = 0;
 	int lineNum = 0;
 	char* targetBuff = malloc(BUFF_SIZE);
+	TreeNode* nodeCheck;
 
 	// Pointer to the open file
 	FILE *f = openFile();
@@ -74,7 +76,13 @@ TreeNode** getNodes() {
 		// parseTargets finds the next line with a viable
 		// target and copies it into the input buffer. Then
 		// it returns the line number it found it on
-		graph[nodeIndex] = nodeInit(targetBuff, lineNum);
+		nodeCheck = nodeInit(targetBuff, lineNum);
+		// checking for multiple targets with the same name
+		if (find(nodeCheck->name, graph) != NULL) {
+			printf("Error: multiple targets with same name\n");
+			exit(1);
+		}
+		graph[nodeIndex] = nodeCheck;
 		nodeIndex++;
 		if (nodeIndex == MAX_NODES) {
 			printf("Error: Makefile too long\n");
@@ -121,40 +129,18 @@ void parentChild(TreeNode* parent, TreeNode* child) {
 	return;
 }
 
-// DFS function
-void DFS(TreeNode* node, TreeNode** order) {
-	// finds if the node is in a loop
-	node->checked = 1;
-
-	for (int i = 0; i < node->numchild; i++) {
-		// is this a proper loop check?
-		if (node->children[i]->checked) {
-			printf("Error: dependency loop found in makefile\n");
-			exit(1);
-		}
-		
-		// 
-		DFS(node->children[i], order);
-	}
-
-	// once your done DFS'ing through node's children
-	// you're ready to add it to order
-	int j = 0;
-	while (j < MAX_NODES && order[j] != NULL) {
-		j++;
-	}
-	// settles on next index w/o a node
-	order[j] = node;
-
-	return;
-}
-
 void printTree(TreeNode** graph) {
 	int i = 0;
 	while (i < MAX_NODES && graph[i] != NULL) {
 		printf("@%i:\t%s\n", graph[i]->line, graph[i]->name);
+		if (graph[i]->numchild > 0) {
+			printf("\t-");
+		}
 		for (int j = 0; j < graph[i]->numchild; j++) {
-			printf("\t%s\n", graph[i]->children[j]->name);
+			printf("%s-", graph[i]->children[j]->name);
+		}
+		if (graph[i]->numchild > 0) {
+			printf("\n");
 		}
 		i++;
 	}
