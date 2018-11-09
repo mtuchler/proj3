@@ -15,7 +15,7 @@ prog3: main3.o process1.o process2.o graph.o djikstra.o
 	gcc -o prog3 main3.o process1.o process2.o graph.o djikstra.o
 	echo prog3 built successfully
 
-main1.o: main1.c queue.h
+main1.o: main1.c queue.h parser.o
 	echo Building main1.o!
 	gcc -c main1.c
 
@@ -83,3 +83,4 @@ clean_prog3:
 	rm prog3
 
 clean: clean_objs clean_prog1 clean_prog2 clean_prog3
+

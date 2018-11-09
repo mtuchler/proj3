@@ -23,6 +23,7 @@
 void execLoop(TreeNode** order) {
 	int execute = 1;
 	int i = 0;
+	// printTree(order);
 	while (order[i] != NULL) {
 		// check if it's a target
 		// if its line number = -1, don't exec
@@ -38,7 +39,6 @@ void execLoop(TreeNode** order) {
 		}
 		// great! you're good to go!
 		if (execute) {
-			//printf("execute %s\n", order[i]->name);
 			execNode(order[i]);
 		}
 		i++;
@@ -65,22 +65,27 @@ void execNode(TreeNode* node) {
 
 		if(pid < 0){
 			printf("Process could not be forked\n");
-			exit(1);
+			exit(0);
 		}
                	else if(pid == 0){
-			// manually print exec'd command?
-			status = execvp(cmdList[0], cmdList);
-			printf("%i\n",status);
-			if (status < 0) {
-				exit(0);
+			// manually print exec'd command
+			int x = 0;
+			while (cmdList[x] != NULL) {
+				printf("%s ", cmdList[x]);
+				x++;
 			}
-			exit(1);
+			printf("\n");
+
+			// EXECUTE THE LINE
+			status = execvp(cmdList[0], cmdList);
+			exit(0);
 		}
 		else{
 			wait(&status);
-			if (status == 0) {
+			// printf("status: %i\n",status);
+			if (status != 0) {
 				// didn't exit normally
-				printf("%i: Invalid command\n", status);
+				printf("%i: Invalid command\n", *line);
 				exit(0);
 			}
 		}	
@@ -120,5 +125,5 @@ int timeCheck(TreeNode* node) {
 		}
 	}
 	// no need to compile
-	return 0;
+	return 1;
 }

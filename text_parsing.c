@@ -52,8 +52,7 @@ int parseTargets(char* name, FILE* file){
 		lineNum = 1;
 	}
 
-	while(!feof(file)){
-
+	while(!feof(file)) {
 		// read in line
 		int result = readLine(line, file);
 		if (result == -1) {
@@ -73,7 +72,6 @@ int parseTargets(char* name, FILE* file){
 				exit(1);
 			}
 			else{
-				printf("Token : %s\n", token);
 				strcpy(name,token);
 				// whitespace handling
 				for (int j = 0; j < BUFF_SIZE; j++) {
@@ -278,14 +276,14 @@ char** parseCommandLine(int* lineNum){
 
 	closeFile(file);
 
-/*	// print array
-	printf("PRINTING CMDLINE\n");
+	// print array
+	/*printf("PRINTING CMDLINE\n");
 	int k = 0;
 	while (array[k] != NULL) {
 		printf("%s ", array[k]);
 		k++;
 	}
-	printf("\n"); */
+	printf("\n");*/
 	return array;
 }
 
@@ -315,6 +313,6 @@ int readLine(char* buff, FILE* file) {
                 }
                 i++;
         }
-	printf("%s\n", buff);
+	//printf("%s\n", buff);
 	return 0;
 }

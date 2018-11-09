@@ -38,8 +38,18 @@ int connectNodes(TreeNode** graph) {
 			return 0;
 		}
 		currNode = graph[i];
-		printf("----TARGET: %s----\n", currNode->name);
+		//printf("----TARGET: %s----\n", currNode->name);
 		dList = parseDependencies(currNode->line);
+		
+		/*// PRINT DLIST
+		printf("%s: ", currNode->name);
+		int h = 0;
+		while (dList[h] != NULL) {
+			printf("%s ", dList[h]);
+			h++;
+		}
+		printf("\n");*/
+
 		// Null handling for dList
 		if (dList == NULL) {
 			return 0;
@@ -58,20 +68,16 @@ int connectNodes(TreeNode** graph) {
 				parentChild(graph[i], nodeCheck);
 			}
 			// otherwise, it's a dependency but not a target
-			// if it's a file, create a node for it
+			// make a node for it, EVEN IF IT'S NOT A FILE
 			else {
-				//filecheck
-				//access returns 0 when it succeeds
-				if (access(dList[j], F_OK) == 0) {
-					//create node
-					if (nextNodeIndex < MAX_NODES) {
-						graph[nextNodeIndex] = nodeInit(dList[j], -1);
-						parentChild(graph[i], graph[nextNodeIndex]);
-						nextNodeIndex++;
-					}
-					else {
-						printf("Error: Too many nodes.\n");
-					}
+				//create node
+				if (nextNodeIndex < MAX_NODES) {
+					graph[nextNodeIndex] = nodeInit(dList[j], -1);
+					parentChild(graph[i], graph[nextNodeIndex]);
+					nextNodeIndex++;
+				}
+				else {
+					printf("Error: Too many nodes.\n");
 				}
 			}
 			j++;
@@ -100,17 +106,18 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 	int j = 0;
 	while (graph[j] != NULL) {
 		DFS(graph[j], NULL);
-		graph[j]->checked = 0;
-		graph[j]->recur = 0;
+		// reset for next DFS
+		int k = 0;
+		while (graph[k] != NULL) {
+			graph[k]->checked = 0;
+			graph[k]->recur = 0;
+			k++;
+		}
 		j++;
 	}
 
-	printf("no loop\n");
-
 	//  call DFS on root node
 	DFS(root, order);
-
-	printTree(order);
 
 	return order;
 }
@@ -132,6 +139,7 @@ void DFS(TreeNode* node, TreeNode** order) {
 
         for (int i = 0; i < node->numchild; i++) {
 		// for each unchecked child
+		// it it's a target
 		// recursive call
 		if (node->children[i]->line > 0) {
 			DFS(node->children[i], order);
@@ -151,11 +159,15 @@ void DFS(TreeNode* node, TreeNode** order) {
 
 	// only get here with WRITE PERMISSION
         int j = 0;
-        while (j < MAX_NODES && order[j] != NULL) {
+        while (j < MAX_NODES) {
+		if (order[j] == NULL) {
+			break;
+		}
                 j++;
         }
         // settles on next index w/o a node
         order[j] = node;
+	// printf("added to order : %s\n", node->name);
 
         return;
 }
