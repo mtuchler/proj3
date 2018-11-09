@@ -128,7 +128,7 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 void DFS(TreeNode* node, TreeNode** order) {
 	// finds if the node is in a loop
 	if (node->recur == 1) {
-		printf("Error: dependency loop detected in makefile\n");
+		printf("%i: Error: dependency loop detected\n", node->line);
 		exit(0);
 	}
 	if (node->checked == 1) {
@@ -167,7 +167,6 @@ void DFS(TreeNode* node, TreeNode** order) {
         }
         // settles on next index w/o a node
         order[j] = node;
-	// printf("added to order : %s\n", node->name);
 
         return;
 }

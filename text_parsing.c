@@ -68,7 +68,7 @@ int parseTargets(char* name, FILE* file){
 		if (line[0] != '\0' && line[0] != '\t' && line[0] != '#') {	
 			token = strtok(line, &delim);
 			if (token == NULL){
-				printf("%d: incorrect target\n", lineNum);
+				printf("%d: Incorrect target\n", lineNum);
 				exit(1);
 			}
 			else{

@@ -118,19 +118,18 @@ void execNode(TreeNode* node) {
     		}*/
 			
 			
-		// manually print exec'd command
-		int x = 0;
-		while (cmdList[x] != NULL) {
-			printf("%s ", cmdList[x]);
-			x++;
+			// manually print exec'd command
+			int x = 0;
+			while (cmdList[x] != NULL) {
+				printf("%s ", cmdList[x]);
+				x++;
+			}
+			printf("\n");
+
+			// EXECUTE THE LINE
+			status = execvp(cmdList[0], cmdList);
+			exit(0);
 		}
-		printf("\n");
-
-	// EXECUTE THE LINE
-	status = execvp(cmdList[0], cmdList);
-	exit(0);
-	}
-
 		else{
 			wait(&status);
 			// printf("status: %i\n",status);
@@ -176,5 +175,5 @@ int timeCheck(TreeNode* node) {
 		}
 	}
 	// no need to compile
-	return 1;
+	return 0;
 }
