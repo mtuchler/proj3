@@ -52,7 +52,7 @@ void execLoop(TreeNode** order) {
 //and makes it run as its own once execvp is called 
 //thus terminates the process once it is finished
 void execNode(TreeNode* node) {
-
+	
 	int* line = &(node->line);
 	(*line)++;
 	char** cmdList;
@@ -68,18 +68,69 @@ void execNode(TreeNode* node) {
 			exit(0);
 		}
                	else if(pid == 0){
-			// manually print exec'd command
-			int x = 0;
-			while (cmdList[x] != NULL) {
-				printf("%s ", cmdList[x]);
-				x++;
-			}
-			printf("\n");
 
-			// EXECUTE THE LINE
-			status = execvp(cmdList[0], cmdList);
-			exit(0);
+		/*	//input/output redirection
+			int input=0,output=0;
+			char inp[64],out[64];
+
+   			 // finds where '<' or '>'
+			 // occurs and make that argv[i] = NULL
+			 // to ensure that command wont't read that
+
+    			for(int i=0;*argv[i]!='\0';i++)
+    			{
+        			if(strcmp(argv[i],"<")==0){        
+            				argv[i]=NULL;
+            				strcpy(inp,argv[i+1]);
+            				input=2;           
+        			}               
+
+        			if(strcmp(argv[i],">")==0){      
+            				argv[i]=NULL;
+            				strcpy(out,argv[i+1]);
+            				output=2;
+        			}         
+    		}
+
+    		//if '<' char was found in string inputted by user
+    		if(input){   
+			// f1 is file descriptor
+        		int f1;
+        		if ((f1 = open(inp, O_RDONLY, 0)) < 0) {
+            			perror("Couldn't open input file");
+            			exit(0);
+        		}           
+        	//dup2() copies content of fdo in input of preceeding file
+        	dup2(f1, 0); 
+		close(f1);
+    		}
+
+    		//if '>' char was found in string inputted by user 
+   		if (output){
+			int f2;
+        		if ((f2 = creat(out , 0644)) < 0) {
+            			perror("Couldn't open the output file");
+            			exit(0);
+        		}           
+		//cam be replaced by STDOUT_FILENO
+        	dup2(f2, STDOUT_FILENO);
+        	close(f2);
+    		}*/
+			
+			
+		// manually print exec'd command
+		int x = 0;
+		while (cmdList[x] != NULL) {
+			printf("%s ", cmdList[x]);
+			x++;
 		}
+		printf("\n");
+
+	// EXECUTE THE LINE
+	status = execvp(cmdList[0], cmdList);
+	exit(0);
+	}
+
 		else{
 			wait(&status);
 			// printf("status: %i\n",status);
@@ -92,7 +143,7 @@ void execNode(TreeNode* node) {
 		//done executing one line
 		(*line)++;
 		cmdList = parseCommandLine(line);
-	}
+		}
 	return;
 }
 
