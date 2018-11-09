@@ -24,7 +24,7 @@ FILE* openFile() {
 	if(file == NULL) {
 		file = fopen("Makefile", "r");
 		if (file == NULL) {
-                	printf("Error opening file\n");
+                	fprintf(stderr, "Error opening file\n");
                 	exit(1);
 		}
 	}
@@ -59,7 +59,7 @@ int parseTargets(char* name, FILE* file){
 			return 0;
 		}
 		else if (result == -2) {
-			printf("%i: Line too long\n", lineNum);
+			fprintf(stderr, "%i: Line too long\n", lineNum);
 			exit(0);
 		}
 
@@ -68,7 +68,7 @@ int parseTargets(char* name, FILE* file){
 		if (line[0] != '\0' && line[0] != '\t' && line[0] != '#') {	
 			token = strtok(line, &delim);
 			if (token == NULL){
-				printf("%d: Incorrect target\n", lineNum);
+				fprintf(stderr, "%i: Incorrect target\n", lineNum);
 				exit(1);
 			}
 			else{
@@ -122,7 +122,7 @@ char** parseDependencies(int lineNum){
 		return NULL;
 	}
 	else if (result == -2) {
-		printf("%i: Line too long\n", lineNum);
+		fprintf(stderr, "%i: Line too long\n", lineNum);
 		exit(0);
 	}
 
@@ -235,7 +235,7 @@ char** parseCommandLine(int* lineNum){
 		return NULL;
 	}
 	else if (result == -2) {
-		printf("%i: Line too long\n", *lineNum);
+		fprintf(stderr, "%i: Line too long\n", *lineNum);
 		exit(0);
 	}
 
@@ -275,15 +275,6 @@ char** parseCommandLine(int* lineNum){
 	array[listIndex] = NULL;
 
 	closeFile(file);
-
-	// print array
-	/*printf("PRINTING CMDLINE\n");
-	int k = 0;
-	while (array[k] != NULL) {
-		printf("%s ", array[k]);
-		k++;
-	}
-	printf("\n");*/
 	return array;
 }
 
@@ -313,6 +304,5 @@ int readLine(char* buff, FILE* file) {
                 }
                 i++;
         }
-	//printf("%s\n", buff);
 	return 0;
 }

@@ -40,15 +40,6 @@ int connectNodes(TreeNode** graph) {
 		currNode = graph[i];
 		//printf("----TARGET: %s----\n", currNode->name);
 		dList = parseDependencies(currNode->line);
-		
-		/*// PRINT DLIST
-		printf("%s: ", currNode->name);
-		int h = 0;
-		while (dList[h] != NULL) {
-			printf("%s ", dList[h]);
-			h++;
-		}
-		printf("\n");*/
 
 		// Null handling for dList
 		if (dList == NULL) {
@@ -77,7 +68,7 @@ int connectNodes(TreeNode** graph) {
 					nextNodeIndex++;
 				}
 				else {
-					printf("Error: Too many nodes.\n");
+					fprintf(stderr,"Error: Too many nodes.\n");
 				}
 			}
 			j++;
@@ -128,7 +119,7 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 void DFS(TreeNode* node, TreeNode** order) {
 	// finds if the node is in a loop
 	if (node->recur == 1) {
-		printf("%i: Error: dependency loop detected\n", node->line);
+		fprintf(stderr, "%i: Error: dependency loop detected\n", node->line);
 		exit(0);
 	}
 	if (node->checked == 1) {
@@ -184,14 +175,14 @@ TreeNode* getRoot(int argc, const char* argv[], TreeNode** graph) {
 		strcpy(argument, argv[1]);
 		TreeNode* root = find(argument, graph);
 		if (root == NULL) {
-			printf("Error: input is not a valid argument\n");
+			fprintf(stderr,"Error: input is not a valid argument\n");
 			exit(1);
 		}
 		// not null, found a fitting root
 		return root;
 	}
 	else {
-		printf("Error: improper input format - too many arguments\n");
+		fprintf(stderr, "Error: improper input format - too many arguments\n");
 		exit(1);
 	}
 	return NULL;

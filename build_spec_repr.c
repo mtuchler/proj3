@@ -79,13 +79,13 @@ TreeNode** getNodes() {
 		nodeCheck = nodeInit(targetBuff, lineNum);
 		// checking for multiple targets with the same name
 		if (find(nodeCheck->name, graph) != NULL) {
-			printf("Error: multiple targets with same name\n");
+			fprintf(stderr, "Error: multiple targets with same name\n");
 			exit(1);
 		}
 		graph[nodeIndex] = nodeCheck;
 		nodeIndex++;
 		if (nodeIndex == MAX_NODES) {
-			printf("Error: Makefile too long\n");
+			fprintf(stderr, "Error: Makefile too long\n");
 			exit(1);
 		}
 		lineNum = parseTargets(targetBuff, f);
@@ -128,19 +128,19 @@ void parentChild(TreeNode* parent, TreeNode* child) {
 	// no space for more children
 	return;
 }
-
+//prints out the tree
 void printTree(TreeNode** graph) {
 	int i = 0;
 	while (i < MAX_NODES && graph[i] != NULL) {
-		printf("@%i:\t-%s-\n", graph[i]->line, graph[i]->name);
+		fprintf(stderr, "@%i:\t-%s-\n", graph[i]->line, graph[i]->name);
 		if (graph[i]->numchild > 0) {
-			printf("\t. ");
+			fprintf(stderr, "\t. ");
 		}
 		for (int j = 0; j < graph[i]->numchild; j++) {
-			printf("%s . ", graph[i]->children[j]->name);
+			fprintf(stderr, "%s . ", graph[i]->children[j]->name);
 		}
 		if (graph[i]->numchild > 0) {
-			printf("\n");
+			fprintf(stderr, "\n");
 		}
 		i++;
 	}

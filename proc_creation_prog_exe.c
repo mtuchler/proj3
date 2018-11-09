@@ -14,6 +14,7 @@
 
 
 #include "proc_creation_prog_exe.h"
+int wasexec = 0;
 
 // this method loops through each node in the build order
 // and calls execNode on it if applicable
@@ -44,6 +45,10 @@ void execLoop(TreeNode** order) {
 		i++;
 		execute = 1;
 	}
+	if (!wasexec) {
+		fprintf(stderr, "All files up-to-date\n");
+	}
+
 	return;
 }
 
@@ -64,82 +69,34 @@ void execNode(TreeNode* node) {
 		pid = fork();
 
 		if(pid < 0){
-			printf("Process could not be forked\n");
+			fprintf(stderr, "Process could not be forked\n");
 			exit(0);
 		}
                	else if(pid == 0){
-
-		/*	//input/output redirection
-			int input=0,output=0;
-			char inp[64],out[64];
-
-   			 // finds where '<' or '>'
-			 // occurs and make that argv[i] = NULL
-			 // to ensure that command wont't read that
-
-    			for(int i=0;*argv[i]!='\0';i++)
-    			{
-        			if(strcmp(argv[i],"<")==0){        
-            				argv[i]=NULL;
-            				strcpy(inp,argv[i+1]);
-            				input=2;           
-        			}               
-
-        			if(strcmp(argv[i],">")==0){      
-            				argv[i]=NULL;
-            				strcpy(out,argv[i+1]);
-            				output=2;
-        			}         
-    		}
-
-    		//if '<' char was found in string inputted by user
-    		if(input){   
-			// f1 is file descriptor
-        		int f1;
-        		if ((f1 = open(inp, O_RDONLY, 0)) < 0) {
-            			perror("Couldn't open input file");
-            			exit(0);
-        		}           
-        	//dup2() copies content of fdo in input of preceeding file
-        	dup2(f1, 0); 
-		close(f1);
-    		}
-
-    		//if '>' char was found in string inputted by user 
-   		if (output){
-			int f2;
-        		if ((f2 = creat(out , 0644)) < 0) {
-            			perror("Couldn't open the output file");
-            			exit(0);
-        		}           
-		//cam be replaced by STDOUT_FILENO
-        	dup2(f2, STDOUT_FILENO);
-        	close(f2);
-    		}*/
-			
-			
 			// manually print exec'd command
 			int x = 0;
 			while (cmdList[x] != NULL) {
-				printf("%s ", cmdList[x]);
+				fprintf(stderr, "%s ", cmdList[x]);
 				x++;
 			}
-			printf("\n");
+			fprintf(stderr, "\n");
 
 			// EXECUTE THE LINE
-			status = execvp(cmdList[0], cmdList);
-			printf("%i: Invalid command\n", *line);
-			exit(3);
+			execvp(cmdList[0], cmdList);
+			fprintf(stderr, "%i: Invalid Command\n", *line);
+			exit(EXIT_FAILURE);
 		}
+
 		else{
 			wait(&status);
-			if (!WIFEXITED(status)) {
+			if (WEXITSTATUS(status)) {
 				// didn't exit normally
-				printf("%i: Invalid command\n", WIFEXITED(status));
+				fprintf(stderr,"%i: Invalid command\n", *line);
 				exit(0);
 			}
 		}	
 		//done executing one line
+		wasexec = 1;
 		(*line)++;
 		cmdList = parseCommandLine(line);
 		}
