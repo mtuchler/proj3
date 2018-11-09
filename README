@@ -1,15 +1,31 @@
-This program consists of mainly 5 c files which when the program is actually rancan parse an entire makefile and handle line by line creating a graph and checking whether certain attributes of the makefile can create a cyclical dependency while also checking for a bad makefile where a certain line of the makefile can not be of valid command line or target or even a dependency.
+CS537 - Intro to Operating Systems
+Bart Miller
+Program 3 - 537make
+
+By Michael Tuchler and Abhi Kosuri
+
+~~~~~
+
+This program simulates the "make" command by searching the directory for a "Makefile" or "makefile", parsing the targets, dependencies, and commands, developing a build order, and executing the commands.
 
 The 5 c files used in this program are as follows: main.c, text_parsing.c, build_spec_repr.c, build_spec_graph.c and proc_creation_prog_exe.c. Below are the descriptions of what each file's role is in the program itself.
 
+~~~~~~~
 main.c:
+	Runs the fundamental commands from the various files as a macroscopic program control.
 
+~~~~~~~~~~~~~~
 text_parsing.c:
+	This includes functions to parse certain specific bits of the makefile. It can find the targets, dependencies, and commands, as well as handling file opening and closing properly.
 
+~~~~~~~~~~~~~~~~~
 build_spec_repr.c:
+	Implements a Directed Graph using TreeNode structs. Each node stores a string (name), the line number it's associated with, its parent node, its children nodes, and a few other fields to handle DFS and other things. The functions in this method can initialize a node, create an array for each of the targets, find a node in a graph, set a parent-child relationship, and print an array of TreeNodes (only used for testing).
 
+~~~~~~~~~~~~~~~~~~
 build_spec_graph.c:
+	This program is a slightly higher level implementation of the graph, which defines the connectNode function to identify and set all dependencies from the makefile. It also implements a Depth First Search, whose function is two-fold: it can detect cycles, and it can develop a Build Order for the nodes. It also has a function to parse the command line to determine the "root" node for the DFS, which is our chosen target for execution.
 
+~~~~~~~~~~~~~~~~~~~~~~~~
 proc_creation_prog_exe.c:
-
-We used the idea of creating nodes from the lines containing targets and dependecnies to build a graph where we can run a cycle detection on the nodes themselves using Depth-First-Search. 
+	Executes the nodes in the Build Order. It has a loop to run each node in the order, a fork/exec/wait block to run a given line's commands, and a function to check the last modified time of a file. After all, if all of something's children are up-to-date, then there's no need to recompile.
