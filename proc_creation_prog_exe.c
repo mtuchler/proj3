@@ -128,14 +128,14 @@ void execNode(TreeNode* node) {
 
 			// EXECUTE THE LINE
 			status = execvp(cmdList[0], cmdList);
-			exit(0);
+			printf("%i: Invalid command\n", *line);
+			exit(3);
 		}
 		else{
 			wait(&status);
-			// printf("status: %i\n",status);
-			if (status != 0) {
+			if (!WIFEXITED(status)) {
 				// didn't exit normally
-				printf("%i: Invalid command\n", *line);
+				printf("%i: Invalid command\n", WIFEXITED(status));
 				exit(0);
 			}
 		}	
