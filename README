@@ -1,1 +1,15 @@
-Write your README here
+This program consists of mainly 5 c files which when the program is actually rancan parse an entire makefile and handle line by line creating a graph and checking whether certain attributes of the makefile can create a cyclical dependency while also checking for a bad makefile where a certain line of the makefile can not be of valid command line or target or even a dependency.
+
+The 5 c files used in this program are as follows: main.c, text_parsing.c, build_spec_repr.c, build_spec_graph.c and proc_creation_prog_exe.c. Below are the descriptions of what each file's role is in the program itself.
+
+main.c:
+
+text_parsing.c:
+
+build_spec_repr.c:
+
+build_spec_graph.c:
+
+proc_creation_prog_exe.c:
+
+We used the idea of creating nodes from the lines containing targets and dependecnies to build a graph where we can run a cycle detection on the nodes themselves using Depth-First-Search. 
