@@ -73,17 +73,8 @@ void execNode(TreeNode* node) {
 			exit(0);
 		}
                	else if(pid == 0){
-			// manually print exec'd command
-			int x = 0;
-			while (cmdList[x] != NULL) {
-				fprintf(stderr, "%s ", cmdList[x]);
-				x++;
-			}
-			fprintf(stderr, "\n");
-
 			// EXECUTE THE LINE
 			execvp(cmdList[0], cmdList);
-			fprintf(stderr, "%i: Invalid Command\n", *line);
 			exit(EXIT_FAILURE);
 		}
 
@@ -91,8 +82,23 @@ void execNode(TreeNode* node) {
 			wait(&status);
 			if (WEXITSTATUS(status)) {
 				// didn't exit normally
-				fprintf(stderr,"%i: Invalid command\n", *line);
+				fprintf(stderr,"%i: Invalid command \"", *line);
+				int y = 0;
+				while (cmdList[y] != NULL) {
+					fprintf(stderr, "%s ", cmdList[y]);
+				y++;
+				}
+				fprintf(stderr, "\"\n");
 				exit(0);
+			}
+			else {
+				// manually print command
+				int x = 0;
+				while (cmdList[x] != NULL) {
+					fprintf(stderr, "%s ", cmdList[x]);
+				x++;
+				}
+				fprintf(stderr, "\n");
 			}
 		}	
 		//done executing one line
