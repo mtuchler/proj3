@@ -38,7 +38,7 @@ int connectNodes(TreeNode** graph) {
 			return 0;
 		}
 		currNode = graph[i];
-		//printf("----TARGET: %s----\n", currNode->name);
+		printf("----TARGET: %s----\n", currNode->name);
 		dList = parseDependencies(currNode->line);
 		// Null handling for dList
 		if (dList == NULL) {
@@ -96,9 +96,21 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 	for (int i = 0; i < MAX_NODES; i++) {
 		order[i] = NULL;
 	}
+	// call DFS on EVERY node, w/o write permission
+	int j = 0;
+	while (graph[j] != NULL) {
+		DFS(graph[j], NULL);
+		graph[j]->checked = 0;
+		graph[j]->recur = 0;
+		j++;
+	}
+
+	printf("no loop\n");
+
 	//  call DFS on root node
-	//  if it finds a cycle, it will throw the error and exit
 	DFS(root, order);
+
+	printTree(order);
 
 	return order;
 }
@@ -130,6 +142,14 @@ void DFS(TreeNode* node, TreeNode** order) {
 
         // once your done DFS'ing through node's children
         // you're ready to add it to order
+	
+	// IF ORDER == NULL, THIS DFS DOESNT HAVE WRITE PERMISSION
+	// DO NOT CONTINUE
+	if (order == NULL) {
+		return;
+	}
+
+	// only get here with WRITE PERMISSION
         int j = 0;
         while (j < MAX_NODES && order[j] != NULL) {
                 j++;

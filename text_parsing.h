@@ -28,5 +28,6 @@ void closeFile(FILE* f);
 int parseTargets(char* target, FILE* file);
 char** parseDependencies(int lineNum);
 char** parseCommandLine(int* lineNum);
+int readLine(char* buff, FILE* file);
 
 #endif

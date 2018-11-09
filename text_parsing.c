@@ -53,32 +53,15 @@ int parseTargets(char* name, FILE* file){
 	}
 
 	while(!feof(file)){
-		char c;
+
 		// read in line
-		int i = 0;
-		int cont = 1;
-		while (cont) {
-			c = fgetc(file);
-			if (c == '\n') {
-				line[i] = '\0';
-				cont = 0;
-			}
-			else if (feof(file)) {
-				if (i == 0) {
-					return 0;
-				}
-				line[i] = '\0';
-				cont = 0;
-			}
-			else if (i == BUFF_SIZE) {
-				printf("%i: Line too long error\n", lineNum);
-				exit(1);
-			}
-			// no end conditions: read that letter!
-			if (cont) {
-				line[i] = c;
-			}
-			i++;
+		int result = readLine(line, file);
+		if (result == -1) {
+			return 0;
+		}
+		else if (result == -2) {
+			printf("%i: Line too long\n", lineNum);
+			exit(0);
 		}
 
 		// ignore lines that start with \n, \t, or #
@@ -90,6 +73,7 @@ int parseTargets(char* name, FILE* file){
 				exit(1);
 			}
 			else{
+				printf("Token : %s\n", token);
 				strcpy(name,token);
 				// whitespace handling
 				for (int j = 0; j < BUFF_SIZE; j++) {
@@ -116,7 +100,6 @@ int parseTargets(char* name, FILE* file){
 char** parseDependencies(int lineNum){
 	
 	FILE* file = openFile();
-	char line[BUFF_SIZE];
 
 	char** dList = malloc(sizeof(char*)*MAX_NODES);
 
@@ -132,16 +115,20 @@ char** parseDependencies(int lineNum){
 			}
 		}
 	}
-	
+
+	char line[BUFF_SIZE];
+
 	// read into line
-	for(int e = 0; e < BUFF_SIZE; e++){
-		line[e] = fgetc(file);
-		if (line[e] == '\n') {
-			// append \0 and leave loop
-			line[e] = '\0';
-			e = BUFF_SIZE;
-		}
+	int result = readLine(line, file);
+	if (result != 0) {
+		return NULL;
 	}
+	else if (result == -2) {
+		printf("%i: Line too long\n", lineNum);
+		exit(0);
+	}
+
+	
 	// EOF check
 	if (feof(file)) {
 		return NULL;
@@ -245,31 +232,15 @@ char** parseCommandLine(int* lineNum){
 	}
 
 	// read in line
-	int b = 0;
-	int cont = 1;
-	while (cont) {
-		c = fgetc(file);
-		if (c == '\n') {
-			line[b] = '\0';
-			cont = 0;
-		}
-		else if (feof(file)) {
-			if (b == 0) {
-				return NULL;
-			}
-			line[b] = '\0';
-			cont = 0;
-		}
-		else if (b == BUFF_SIZE) {
-			printf("%i: Line too long error\n", *lineNum);
-			exit(1);
-		}
-		// no stop condition, read the character!
-		if (cont) {
-			line[b] = c;
-		}
-		b++;
+	int result = readLine(line, file);
+	if (result != 0) {
+		return NULL;
 	}
+	else if (result == -2) {
+		printf("%i: Line too long\n", *lineNum);
+		exit(0);
+	}
+
 
 	// index of the line from Makefile
 	int lineIndex = 0;
@@ -316,4 +287,34 @@ char** parseCommandLine(int* lineNum){
 	}
 	printf("\n"); */
 	return array;
+}
+
+int readLine(char* buff, FILE* file) {
+	int i = 0;
+	char c;
+        int cont = 1;
+        while (cont) {
+                c = fgetc(file);
+                if (c == '\n') {
+                        buff[i] = '\0';
+                        cont = 0;
+                }
+                else if (feof(file)) {
+                        if (i == 0) {
+                                return -1;
+                        }
+                        buff[i] = '\0';
+                        cont = 0;
+                }
+                else if (i == BUFF_SIZE) {
+                        return -2;
+                }
+                // no stop condition, read the character!
+                if (cont) {
+                        buff[i] = c;
+                }
+                i++;
+        }
+	printf("%s\n", buff);
+	return 0;
 }

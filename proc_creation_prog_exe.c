@@ -68,13 +68,21 @@ void execNode(TreeNode* node) {
 			exit(1);
 		}
                	else if(pid == 0){
-			if (execvp(cmdList[0], cmdList) == -1) {
-				printf("%i: Invalid command", node->line);
+			// manually print exec'd command?
+			status = execvp(cmdList[0], cmdList);
+			printf("%i\n",status);
+			if (status < 0) {
+				exit(0);
 			}
-			exit(0);
+			exit(1);
 		}
 		else{
 			wait(&status);
+			if (status == 0) {
+				// didn't exit normally
+				printf("%i: Invalid command\n", status);
+				exit(0);
+			}
 		}	
 		//done executing one line
 		(*line)++;
