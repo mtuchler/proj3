@@ -134,7 +134,7 @@ void printTree(TreeNode** graph) {
 	while (i < MAX_NODES && graph[i] != NULL) {
 		fprintf(stderr, "@%i:\t-%s-\n", graph[i]->line, graph[i]->name);
 		if (graph[i]->numchild > 0) {
-			fprintf(stderr, "\t. ",);
+			fprintf(stderr, "\t. ");
 		}
 		for (int j = 0; j < graph[i]->numchild; j++) {
 			fprintf(stderr, "%s . ", graph[i]->children[j]->name);
