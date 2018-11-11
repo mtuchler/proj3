@@ -31,7 +31,7 @@ clean:
 
 # run the Clang Static Anaylzer
 scan-build: clean
-	scan-build -o $(SCAN_BUILD_DIR)
+	scan-build -o $(SCAN_BUILD_DIR) make
 
 # view the one scan available using firefox
 scan-view: scan-build
