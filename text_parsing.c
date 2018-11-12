@@ -45,8 +45,8 @@ void closeFile(FILE* file) {
 int parseTargets(char* name, FILE* file){
 	
 	char* token;
+	char* rest = NULL;
 	char line[BUFF_SIZE];
-	char delim = ':';
 	// only initialize lineNum if you're first to do it
 	if (lineNum == 0) {
 		lineNum = 1;
@@ -66,7 +66,7 @@ int parseTargets(char* name, FILE* file){
 		// ignore lines that start with \n, \t, or #
 		//read til you encounter a colon character
 		if (line[0] != '\0' && line[0] != '\t' && line[0] != '#') {	
-			token = strtok(line, &delim);
+			token = strtok_r(line, ":", &rest);
 			if (token == NULL){
 				fprintf(stderr, "%i: Incorrect target \"%s\"\n", lineNum, line);
 				exit(1);

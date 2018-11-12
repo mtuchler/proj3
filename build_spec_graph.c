@@ -16,7 +16,7 @@
 
 // parses Makefile for dependencies, and sets parents/children
 int connectNodes(TreeNode** graph) {
-	TreeNode* currNode = graph[0];
+	TreeNode* currNode;
 	TreeNode* nodeCheck;
 	int numNodes = 0;
 	// List of strings parsed as dependencies
@@ -109,6 +109,8 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 
 	//  call DFS on root node
 	DFS(root, order);
+
+	free(graph);
 
 	return order;
 }

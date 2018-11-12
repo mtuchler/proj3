@@ -1,5 +1,7 @@
 all: prog1 prog2 prog3
 
+target
+
 prog1: main1.o queue.o reader.o writer.o
 	echo Building prog1
 	gcc -o prog1 main1.o queue.o reader.o writer.o
@@ -18,7 +20,6 @@ prog3: main3.o process1.o process2.o graph.o djikstra.o
 main1.o: main1.c queue.h parser.o
 	echo Building main1.o!
 	gcc -c main1.c
-	lfkdasfioewngregrgfdgDFEFFEGDG
 
 main1.c: main_1_draft.c
 	cp main_1_draft.c main1.c
@@ -26,7 +27,6 @@ main1.c: main_1_draft.c
 reader.o: reader.c reader.h queue.h
 	echo Building reader.o!
 	gcc -c reader.c
-	dslkafdsjfklaf
 
 main2.o: main2.c queue.h writer.h
 	echo Building main2.o!

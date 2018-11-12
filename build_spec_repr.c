@@ -64,7 +64,7 @@ TreeNode** getNodes() {
 	// ints and buffer
 	int nodeIndex = 0;
 	int lineNum = 0;
-	char* targetBuff = malloc(BUFF_SIZE);
+	char targetBuff[BUFF_SIZE];
 	TreeNode* nodeCheck;
 
 	// Pointer to the open file
