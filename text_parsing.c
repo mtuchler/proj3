@@ -104,11 +104,6 @@ char** parseDependencies(int lineNumba){
 	
 	FILE* file = openFile();
 
-	char** dList = malloc(sizeof(char*)*MAX_NODES);
-	for (int n = 0; n < MAX_NODES; n++) {
-		dList[n] = malloc(BUFF_SIZE);
-	}
-
 	//throw out lines until you get to lineNum
 	for(int d = 1; d < lineNumba; d++){
 		while(fgetc(file) != '\n') {
@@ -119,7 +114,7 @@ char** parseDependencies(int lineNumba){
 	}
 
 	//char* line = calloc(BUFF_SIZE, sizeof(char));
-	char* line = calloc(BUFF_SIZE, sizeof(char));
+	char* line = (char *)malloc(BUFF_SIZE);
 
 	// read into line
 	int result = readLine(line, file);
@@ -136,6 +131,12 @@ char** parseDependencies(int lineNumba){
 	if (feof(file)) {
 		return NULL;
 	}
+
+	char** dList = malloc(sizeof(char*)*MAX_NODES);
+	
+	for (int n = 0; n < MAX_NODES; n++) {
+		dList[n] = (char *)malloc(BUFF_SIZE);
+        }
 
 	// index of line read from Makefile
 	int lineIndex = 0;

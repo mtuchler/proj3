@@ -78,6 +78,7 @@ int connectNodes(TreeNode** graph) {
 		for (int f = 0; f < MAX_NODES; f++) {
 			// pay respects
 			free(dList[f]);
+			//printf("D : %s\n", dList[f]);
 		}
 		free(dList);
 
