@@ -73,6 +73,14 @@ int connectNodes(TreeNode** graph) {
 			}
 			j++;
 		}
+
+		// free dList before loop
+		for (int f = 0; f < MAX_NODES; f++) {
+			// pay respects
+			free(dList[f]);
+		}
+		free(dList);
+
 	}
 
 	return 0;
@@ -109,8 +117,6 @@ TreeNode** buildOrder(TreeNode* root, TreeNode** graph) {
 
 	//  call DFS on root node
 	DFS(root, order);
-
-	free(graph);
 
 	return order;
 }

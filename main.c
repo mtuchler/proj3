@@ -19,17 +19,7 @@
 
 void testParseCommandLine();
 void testGetNodes();
-
-void freeGraph(TreeNode **graph) {
-	int index = 0;
-	while (graph[index] != NULL) {
-		TreeNode *node = graph[index];
-		free(node->name);
-		free(node);
-		index++;
-	}
-	free(graph);
-}
+void freeGraph(TreeNode **graph);
 
 int main(int argc, const char* argv[]) {
 	TreeNode** graph = getNodes();
@@ -38,4 +28,16 @@ int main(int argc, const char* argv[]) {
 	TreeNode** order = buildOrder(root, graph);
 	execLoop(order);
 	freeGraph(graph);
+	free(order);
 }
+
+void freeGraph(TreeNode **graph) {
+	int index = 0;
+	while (graph[index] != NULL) {
+		TreeNode *node = graph[index];
+		nodeFree(node);
+		index++;
+	}
+	free(graph);
+}
+

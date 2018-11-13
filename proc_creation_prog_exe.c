@@ -104,8 +104,17 @@ void execNode(TreeNode* node) {
 		//done executing one line
 		wasexec = 1;
 		(*line)++;
-		cmdList = parseCommandLine(line);
+
+		// free previous command list
+		for (int f = 0; f < CMD_SIZE; f++) {
+			// pay respects
+			free(cmdList[f]);
 		}
+		free(cmdList);
+
+		cmdList = parseCommandLine(line);
+	}
+
 	return;
 }
 

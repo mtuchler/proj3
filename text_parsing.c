@@ -105,7 +105,6 @@ char** parseDependencies(int lineNumba){
 	FILE* file = openFile();
 
 	char** dList = malloc(sizeof(char*)*MAX_NODES);
-
 	for (int n = 0; n < MAX_NODES; n++) {
 		dList[n] = malloc(BUFF_SIZE);
 	}
