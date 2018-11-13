@@ -20,10 +20,22 @@
 void testParseCommandLine();
 void testGetNodes();
 
+void freeGraph(TreeNode **graph) {
+	int index = 0;
+	while (graph[index] != NULL) {
+		TreeNode *node = graph[index];
+		free(node->name);
+		free(node);
+		index++;
+	}
+	free(graph);
+}
+
 int main(int argc, const char* argv[]) {
 	TreeNode** graph = getNodes();
 	TreeNode* root = getRoot(argc, argv, graph);
 	connectNodes(graph);
 	TreeNode** order = buildOrder(root, graph);
 	execLoop(order);
+	freeGraph(graph);
 }
