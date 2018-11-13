@@ -47,6 +47,11 @@ int parseTargets(char* name, FILE* file){
 	char* token;
 	char* rest = NULL;
 	char line[BUFF_SIZE];
+	
+	if(name == NULL){
+		printf("Not a valid name");
+		return 0;
+	}	
 	// only initialize lineNum if you're first to do it
 	if (lineNum == 0) {
 		lineNum = 1;
@@ -95,7 +100,7 @@ int parseTargets(char* name, FILE* file){
 //name of another target or name of another file 
 //takes reads each line in from the line buffer checking for
 //dependencies.
-char** parseDependencies(int lineNum){
+char** parseDependencies(int lineNumba){
 	
 	FILE* file = openFile();
 
@@ -106,7 +111,7 @@ char** parseDependencies(int lineNum){
 	}
 
 	//throw out lines until you get to lineNum
-	for(int d = 1; d < lineNum; d++){
+	for(int d = 1; d < lineNumba; d++){
 		while(fgetc(file) != '\n') {
 			if (feof(file)) {
 				return NULL;
@@ -114,18 +119,19 @@ char** parseDependencies(int lineNum){
 		}
 	}
 
-	char line[BUFF_SIZE];
+	//char* line = calloc(BUFF_SIZE, sizeof(char));
+	char* line = calloc(BUFF_SIZE, sizeof(char));
 
 	// read into line
 	int result = readLine(line, file);
+
 	if (result != 0) {
 		return NULL;
 	}
 	else if (result == -2) {
-		fprintf(stderr, "%i: Line too long\n", lineNum);
+		fprintf(stderr, "%i: Line too long\n", lineNumba);
 		exit(0);
 	}
-
 	
 	// EOF check
 	if (feof(file)) {
@@ -140,12 +146,12 @@ char** parseDependencies(int lineNum){
 	int deppIndex = 0;
 
 	// read until the colon to get the first dependancy
-	while (line[lineIndex] != ':') {
+	while (lineIndex < BUFF_SIZE && line[lineIndex] != ':') {
 		lineIndex++;
 	}
 	lineIndex++;
 	// throw out all subsequent spaces
-	while (line[lineIndex] == ' ') {
+	while (lineIndex < BUFF_SIZE && line[lineIndex] == ' ') {
 		lineIndex++;
 	}
 
@@ -154,9 +160,9 @@ char** parseDependencies(int lineNum){
 	// 	- chars making up the dependants
 	// 	- followed by some non-zero number of spaces
 	// 	- all ending in a terminator
-	while (line[lineIndex] != '\0' && listIndex < MAX_NODES) {
+	while (lineIndex < BUFF_SIZE && line[lineIndex] != '\0' && listIndex < MAX_NODES) {
 		// if you find a non-space, non-terminating char...
-		if (line[lineIndex] != ' ') {
+		if (lineIndex < BUFF_SIZE && line[lineIndex] != ' ') {
 			// ...set char in dList and increment
 			dList[listIndex][deppIndex] = line[lineIndex];
 			deppIndex++;
@@ -171,7 +177,7 @@ char** parseDependencies(int lineNum){
 			listIndex++;
 			deppIndex = 0;
 			// while loop ignores multiple consecutive spaces
-			while (line[lineIndex] == ' ') {
+			while (lineIndex < BUFF_SIZE && line[lineIndex] == ' ') {
 				lineIndex++;
 			}
 		}
@@ -184,7 +190,7 @@ char** parseDependencies(int lineNum){
 	dList[listIndex] = NULL;
 	
 	closeFile(file);
-
+	free(line);
 	return dList;
 }
 
@@ -192,13 +198,13 @@ char** parseDependencies(int lineNum){
 //reads up to the line if starts with a tab character
 //return an array of strings that are passed into execvp() 
 //returns NULL on end of cmd lines or EOF
-char** parseCommandLine(int* lineNum){
+char** parseCommandLine(int* lineNumba){
 	
 	FILE* file = openFile();
 	char line[BUFF_SIZE];
 
         //read each lineNum and throws out the newline
-        for(int d = 1; d < *lineNum; d++){
+        for(int d = 1; d < *lineNumba; d++){
                 while(fgetc(file) != '\n') {
 			if (feof(file)) {
 				return NULL;
@@ -215,8 +221,8 @@ char** parseCommandLine(int* lineNum){
 	if (c != '\t') {
 		// Ignore a line that starts with a newline or #
 		if (c == '\n' || c == '#') {
-			(*lineNum)++;
-			return parseCommandLine(lineNum);
+			(*lineNumba)++;
+			return parseCommandLine(lineNumba);
 		}
 		else {
 			return NULL;
@@ -235,7 +241,7 @@ char** parseCommandLine(int* lineNum){
 		return NULL;
 	}
 	else if (result == -2) {
-		fprintf(stderr, "%i: Line too long\n", *lineNum);
+		fprintf(stderr, "%i: Line too long\n", *lineNumba);
 		exit(0);
 	}
 

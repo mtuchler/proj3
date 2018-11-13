@@ -64,7 +64,7 @@ TreeNode** getNodes() {
 	// ints and buffer
 	int nodeIndex = 0;
 	int lineNum = 0;
-	char targetBuff[BUFF_SIZE];
+	char* targetBuff = calloc(BUFF_SIZE, sizeof(char));
 	TreeNode* nodeCheck;
 
 	// Pointer to the open file
@@ -72,7 +72,7 @@ TreeNode** getNodes() {
 	// first parseTargets call
 	lineNum = parseTargets(targetBuff, f);
 	// Loop thru the file
-	while (lineNum > 0) {
+	while (nodeIndex < BUFF_SIZE && lineNum > 0) {
 		// parseTargets finds the next line with a viable
 		// target and copies it into the input buffer. Then
 		// it returns the line number it found it on
@@ -84,7 +84,7 @@ TreeNode** getNodes() {
 		}
 		graph[nodeIndex] = nodeCheck;
 		nodeIndex++;
-		if (nodeIndex == MAX_NODES) {
+		if (nodeIndex < BUFF_SIZE && nodeIndex == MAX_NODES) {
 			fprintf(stderr, "Error: Makefile too long: %i\n", nodeIndex);
 			exit(1);
 		}
@@ -92,7 +92,7 @@ TreeNode** getNodes() {
 	}
 	// Close the file
 	closeFile(f);
-
+	free(targetBuff);
         return graph;
 }
 
