@@ -45,6 +45,8 @@ TreeNode* nodeInit(char *name, int line) {
 int nodeFree(TreeNode* node) {
         free(node->name);
         node->name = NULL;
+	free(node->children);
+	node->children = NULL;
 	free(node);
 	node = NULL;
         return 0;
