@@ -48,4 +48,26 @@ Running basic_cycle_test:
 ==16146== For counts of detected and suppressed errors, rerun with: -v
 ==16146== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 
+Running linespace_testcase:
+
+==16394== Command: 537make
+==16394== 
+1: Line too long error
+==16394== 
+==16394== HEAP SUMMARY:
+==16394==     in use at exit: 2,088 bytes in 3 blocks
+==16394==   total heap usage: 5 allocs, 2 frees, 7,208 bytes allocated
+==16394== 
+==16394== LEAK SUMMARY:
+==16394==    definitely lost: 0 bytes in 0 blocks
+==16394==    indirectly lost: 0 bytes in 0 blocks
+==16394==      possibly lost: 0 bytes in 0 blocks
+==16394==    still reachable: 2,088 bytes in 3 blocks
+==16394==         suppressed: 0 bytes in 0 blocks
+==16394== Reachable blocks (those to which a pointer was found) are not shown.
+==16394== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==16394== 
+==16394== For counts of detected and suppressed errors, rerun with: -v
+==16394== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
 
