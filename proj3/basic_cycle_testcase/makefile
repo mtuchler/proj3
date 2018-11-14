@@ -1,7 +1,5 @@
 all: prog1 prog2 prog3
 
-target
-
 prog1: main1.o queue.o reader.o writer.o
 	echo Building prog1
 	gcc -o prog1 main1.o queue.o reader.o writer.o
@@ -77,10 +75,13 @@ clean_objs:
 	rm djikstra.o
 	rm main1.c
 	rm graph.o
+
 clean_prog1:
 	rm prog1
+
 clean_prog2:
 	rm prog2
+
 clean_prog3:
 	rm prog3
 

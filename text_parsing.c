@@ -113,8 +113,8 @@ char** parseDependencies(int lineNumba){
 		}
 	}
 
-	//char* line = calloc(BUFF_SIZE, sizeof(char));
-	char* line = (char *)malloc(BUFF_SIZE);
+	char* line = calloc(BUFF_SIZE, sizeof(char));
+	//char* line = malloc(BUFF_SIZE);
 
 	// read into line
 	int result = readLine(line, file);
@@ -132,10 +132,9 @@ char** parseDependencies(int lineNumba){
 		return NULL;
 	}
 
-	char** dList = malloc(sizeof(char*)*MAX_NODES);
-	
+	char** dList = malloc(sizeof(char*)*MAX_NODES);	
 	for (int n = 0; n < MAX_NODES; n++) {
-		dList[n] = (char *)malloc(BUFF_SIZE);
+		dList[n] = malloc(BUFF_SIZE);
         }
 
 	// index of line read from Makefile
@@ -187,6 +186,7 @@ char** parseDependencies(int lineNumba){
 		dList[listIndex][deppIndex] = '\0';
 		listIndex++;
 	}
+	free(dList[listIndex]);
 	dList[listIndex] = NULL;
 	
 	closeFile(file);
@@ -278,6 +278,7 @@ char** parseCommandLine(int* lineNumba){
 		array[listIndex][arggIndex] = '\0';
 		listIndex++;
 	}
+	free(array[listIndex]);
 	array[listIndex] = NULL;
 
 	closeFile(file);

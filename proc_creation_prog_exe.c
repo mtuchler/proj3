@@ -86,7 +86,7 @@ void execNode(TreeNode* node) {
 				int y = 0;
 				while (cmdList[y] != NULL) {
 					fprintf(stderr, "%s ", cmdList[y]);
-				y++;
+					y++;
 				}
 				fprintf(stderr, "\"\n");
 				exit(0);
