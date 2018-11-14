@@ -1,0 +1,51 @@
+Running advanced_cycle_test:
+
+==15174== Command: 537make
+==15174== 
+Error opening file
+==15174== 
+HEAP SUMMARY:
+==15174==     in use at exit: 1,536 bytes in 2 blocks
+==15174==   total heap usage: 4 allocs, 2 frees, 2,640 bytes allocated
+==15174== 
+==15174== LEAK SUMMARY:
+==15174==    definitely lost: 0 bytes in 0 blocks
+==15174==    indirectly lost: 0 bytes in 0 blocks
+==15174==      possibly lost: 0 bytes in 0 blocks
+==15174==    still reachable: 1,536 bytes in 2 blocks
+==15174==         suppressed: 0 bytes in 0 blocks
+==15174== Reachable blocks (those to which a pointer was found) are not shown.
+==15174== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==15174== 
+==15174== For counts of detected and suppressed errors, rerun with: -v
+==15174== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+Running basic_cycle_test:
+
+==16146== Command: 537make
+==16146== 
+5: Error: dependency loop detected
+==16146== 
+==16146== HEAP SUMMARY:
+==16146==     in use at exit: 1,450,416 bytes in 1,477 blocks
+==16146==   total heap usage: 1,624 allocs, 147 frees, 1,649,480 bytes allocated
+==16146== 
+==16146== 1,384,448 bytes in 1,352 blocks are definitely lost in loss record 9 of 9
+==16146==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16146==    by 0x109695: parseDependencies (text_parsing.c:110)
+==16146==    by 0x108E59: connectNodes (build_spec_graph.c:42)
+==16146==    by 0x108D0B: main (main.c:27)
+==16146== 
+==16146== LEAK SUMMARY:
+==16146==    definitely lost: 1,384,448 bytes in 1,352 blocks
+==16146==    indirectly lost: 0 bytes in 0 blocks
+==16146==      possibly lost: 0 bytes in 0 blocks
+==16146==    still reachable: 65,968 bytes in 125 blocks
+==16146==         suppressed: 0 bytes in 0 blocks
+==16146== Reachable blocks (those to which a pointer was found) are not shown.
+==16146== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==16146== 
+==16146== For counts of detected and suppressed errors, rerun with: -v
+==16146== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+
+
